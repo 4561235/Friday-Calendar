@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/IntelijWorkspace.iml" filepath="$PROJECT_DIR$/IntelijWorkspace.iml" />
+      <module fileurl="file://$PROJECT_DIR$/quarkus-calendar/quarkus-calendar.iml" filepath="$PROJECT_DIR$/quarkus-calendar/quarkus-calendar.iml" />
     </modules>
   </component>
 </project>
