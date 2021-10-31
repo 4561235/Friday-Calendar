@@ -1,20 +1,20 @@
 #How I made the quarkus project?
 
 	mvn io.quarkus.platform:quarkus-maven-plugin:2.3.1.Final:create     
-	-DprojectGroupId=org.acme     
-	-DprojectArtifactId=quarkus-calendar     
-	-DclassName="org.acme.quarkus.calendar.CalendarEventsRest"     
+	-DprojectGroupId=uge.friday.rest     
+	-DprojectArtifactId=friday-back    
+	-DclassName="uge.friday.rest.CalendarEventsRest"     
 	-Dpath="/calendar-events"
 
 #How to launch quarkus server?
 
-	cd quarkus-calendar
+	cd friday-back
 	./mvnw compile quarkus:dev
 
 #How to create a react project?
 	
 	cd my-react-app
-	create-react-app my-react-app
+	create-react-app friday-front
 
 #How to launch react server?
 
