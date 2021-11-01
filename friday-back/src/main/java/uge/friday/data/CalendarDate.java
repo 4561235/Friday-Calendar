@@ -25,6 +25,18 @@ public class CalendarDate {
                 '}';
     }
 
+    public int getDay(){
+        return this.day;
+    }
+
+    public int getMonth(){
+        return this.month;
+    }
+
+    public int getYear(){
+        return this.year;
+    }
+
     public static void main(String[] args) {
         System.out.println("OK");
     }

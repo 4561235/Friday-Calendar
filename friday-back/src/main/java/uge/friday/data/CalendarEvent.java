@@ -3,6 +3,7 @@ package uge.friday.data;
 import java.util.Objects;
 
 public class CalendarEvent {
+
     private final CalendarDate from;
     private final CalendarDate to;
     private final String description;
@@ -16,6 +17,20 @@ public class CalendarEvent {
         this.to = to;
         this.description = description;
     }
+
+    public CalendarDate getFrom() {
+        return from;
+    }
+
+    public CalendarDate getTo() {
+        return to;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+
 
     @Override
     public String toString() {
