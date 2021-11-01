@@ -19,3 +19,15 @@
 #How to launch react server?
 
 	npm start
+
+#Start h2 database shell, H2 jar is located in h2/bin
+java -cp h2-1.4.200.jar org.h2.tools.Shell
+
+#If database was not created, there is how we create a test database
+URL       jdbc:h2:../../h2Data/testdb
+[Enter]   org.h2.Driver
+User      test
+Password  123
+
+#Start database web server (we don't need this because our application will start the server at launch)
+java -jar h2-1.4.200.jar -baseDir ../../h2Data/testdb

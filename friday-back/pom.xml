@@ -52,6 +52,17 @@
       <groupId>com.fasterxml.jackson.core</groupId>
       <artifactId>jackson-databind</artifactId>
     </dependency>
+    <!-- H2 database -->
+    <dependency>
+      <groupId>com.h2database</groupId>
+      <artifactId>h2</artifactId>
+      <version>1.4.200</version>
+      <scope>runtime</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.maven</groupId>
+      <artifactId>maven-settings</artifactId>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
@@ -99,6 +110,7 @@
       </activation>
       <build>
         <plugins>
+
           <plugin>
             <artifactId>maven-failsafe-plugin</artifactId>
             <version>${surefire-plugin.version}</version>
@@ -118,6 +130,9 @@
               </execution>
             </executions>
           </plugin>
+
+
+
         </plugins>
       </build>
       <properties>

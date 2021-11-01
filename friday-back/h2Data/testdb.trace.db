@@ -1,0 +1,119 @@
+2021-11-01 12:51:07 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Schéma "TESTDB" non trouvé
+Schema "TESTDB" not found; SQL statement:
+use testdb [90079-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:576)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.engine.Database.getSchema(Database.java:1936)
+	at org.h2.command.dml.Set.update(Set.java:466)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:198)
+	at org.h2.command.Command.executeUpdate(Command.java:251)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:228)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:201)
+	at org.h2.tools.Shell.execute(Shell.java:470)
+	at org.h2.tools.Shell.promptLoop(Shell.java:295)
+	at org.h2.tools.Shell.runTool(Shell.java:152)
+	at org.h2.tools.Shell.main(Shell.java:81)
+2021-11-01 12:51:20 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Erreur de syntaxe dans l'instruction SQL "[*]\D
+"
+Syntax error in SQL statement "[*]\D
+"; SQL statement:
+\d
+ [42000-200]
+2021-11-01 13:01:22 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Erreur de syntaxe dans l'instruction SQL "[[*]A
+[A
+"
+Syntax error in SQL statement "[[*]A
+[A
+"; SQL statement:
+[A
+[A
+ [42000-200]
+2021-11-01 13:01:25 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: La table "CARS" existe déjà
+Table "CARS" already exists; SQL statement:
+CREATE TABLE cars(id INT PRIMARY KEY AUTO_INCREMENT, name VARCHAR(255), price INT) [42101-200]
+2021-11-01 13:02:11 database: flush
+org.h2.message.DbException: Erreur générale: "java.lang.IllegalStateException: The file is locked: nio:/home/mateusz/TP_Master_1/Java/ProjetJavaRepo/gasche-szczech/friday-back/h2Data/testdb.mv.db [1.4.200/7]"
+General error: "java.lang.IllegalStateException: The file is locked: nio:/home/mateusz/TP_Master_1/Java/ProjetJavaRepo/gasche-szczech/friday-back/h2Data/testdb.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.get(DbException.java:194)
+	at org.h2.message.DbException.convert(DbException.java:347)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2877)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:481)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:402)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:3579)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:170)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:103)
+	at org.h2.engine.Database.getPageStore(Database.java:2659)
+	at org.h2.engine.Database.open(Database.java:675)
+	at org.h2.engine.Database.openDatabase(Database.java:307)
+	at org.h2.engine.Database.<init>(Database.java:301)
+	at org.h2.engine.Engine.openSession(Engine.java:74)
+	at org.h2.engine.Engine.openSession(Engine.java:192)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:171)
+	at org.h2.engine.Engine.createSession(Engine.java:166)
+	at org.h2.engine.Engine.createSession(Engine.java:29)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:340)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:173)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:152)
+	at org.h2.Driver.connect(Driver.java:69)
+	at org.h2.util.JdbcUtils.getConnection(JdbcUtils.java:309)
+	at org.h2.util.JdbcUtils.getConnection(JdbcUtils.java:289)
+	at org.h2.util.JdbcUtils.getConnection(JdbcUtils.java:275)
+	at org.h2.tools.Shell.connect(Shell.java:370)
+	at org.h2.tools.Shell.promptLoop(Shell.java:211)
+	at org.h2.tools.Shell.runTool(Shell.java:152)
+	at org.h2.tools.Shell.main(Shell.java:81)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Erreur générale: "java.lang.IllegalStateException: The file is locked: nio:/home/mateusz/TP_Master_1/Java/ProjetJavaRepo/gasche-szczech/friday-back/h2Data/testdb.mv.db [1.4.200/7]"
+General error: "java.lang.IllegalStateException: The file is locked: nio:/home/mateusz/TP_Master_1/Java/ProjetJavaRepo/gasche-szczech/friday-back/h2Data/testdb.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	... 29 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:/home/mateusz/TP_Master_1/Java/ProjetJavaRepo/gasche-szczech/friday-back/h2Data/testdb.mv.db [1.4.200/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
+	at org.h2.mvstore.FileStore.open(FileStore.java:172)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
+	... 23 more
+2021-11-01 13:05:43 database: flush
+org.h2.message.DbException: Erreur générale: "java.lang.IllegalStateException: The file is locked: nio:/home/mateusz/TP_Master_1/Java/ProjetJavaRepo/gasche-szczech/friday-back/h2Data/testdb.mv.db [1.4.200/7]"
+General error: "java.lang.IllegalStateException: The file is locked: nio:/home/mateusz/TP_Master_1/Java/ProjetJavaRepo/gasche-szczech/friday-back/h2Data/testdb.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.get(DbException.java:194)
+	at org.h2.message.DbException.convert(DbException.java:347)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2877)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:481)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:402)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:3579)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:170)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:103)
+	at org.h2.engine.Database.getPageStore(Database.java:2659)
+	at org.h2.engine.Database.open(Database.java:675)
+	at org.h2.engine.Database.openDatabase(Database.java:307)
+	at org.h2.engine.Database.<init>(Database.java:301)
+	at org.h2.engine.Engine.openSession(Engine.java:74)
+	at org.h2.engine.Engine.openSession(Engine.java:192)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:171)
+	at org.h2.engine.Engine.createSession(Engine.java:166)
+	at org.h2.engine.Engine.createSession(Engine.java:29)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:340)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:173)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:152)
+	at org.h2.Driver.connect(Driver.java:69)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
+	at uge.friday.data.H2Test.main(H2Test.java:15)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: Erreur générale: "java.lang.IllegalStateException: The file is locked: nio:/home/mateusz/TP_Master_1/Java/ProjetJavaRepo/gasche-szczech/friday-back/h2Data/testdb.mv.db [1.4.200/7]"
+General error: "java.lang.IllegalStateException: The file is locked: nio:/home/mateusz/TP_Master_1/Java/ProjetJavaRepo/gasche-szczech/friday-back/h2Data/testdb.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	... 25 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:/home/mateusz/TP_Master_1/Java/ProjetJavaRepo/gasche-szczech/friday-back/h2Data/testdb.mv.db [1.4.200/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
+	at org.h2.mvstore.FileStore.open(FileStore.java:172)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
+	... 19 more
