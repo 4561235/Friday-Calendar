@@ -155,3 +155,149 @@ Caused by: java.lang.IllegalStateException: The file is locked: nio:/home/mateus
 	at org.h2.mvstore.FileStore.open(FileStore.java:172)
 	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
 	... 19 more
+2021-11-02 11:32:21 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]'/home/luca/Documents/gasche-szczech/friday-back/h2Da
+"; SQL statement:
+'/home/luca/Documents/gasche-szczech/friday-back/h2Da
+ [42000-200]
+2021-11-02 11:32:30 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]\I '/home/luca/Documents/gasche-szczech/friday-back/h2Data/src/event.sql' 
+"; SQL statement:
+\i '/home/luca/Documents/gasche-szczech/friday-back/h2Data/src/event.sql' 
+ [42000-200]
+2021-11-02 11:33:42 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SOURCE[*] '/home/luca/Documents/gasche-szczech/friday-back/h2Data/src/event.sql' "; expected "SET, SAVEPOINT, SCRIPT, SHUTDOWN, SHOW"; SQL statement:
+source '/home/luca/Documents/gasche-szczech/friday-back/h2Data/src/event.sql'  [42001-200]
+2021-11-02 11:34:03 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "source [*]'/home/luca/Documents/gasche-szczech/friday-back/h2Data/src/event.sql[D"; SQL statement:
+source '/home/luca/Documents/gasche-szczech/friday-back/h2Data/src/event.sql[D [42000-200]
+2021-11-02 11:34:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SOURCE[*] /HOME/LUCA/DOCUMENTS/GASCHE-SZCZECH/FRIDAY-BACK/H2DATA/SRC/EVENT.SQL"; expected "SET, SAVEPOINT, SCRIPT, SHUTDOWN, SHOW"; SQL statement:
+source /home/luca/Documents/gasche-szczech/friday-back/h2Data/src/event.sql [42001-200]
+2021-11-02 11:34:57 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Unknown data type: "DATE_TIME"; SQL statement:
+
+
+CREATE TABLE event (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	date_start DATE_TIME NOT NULL,
+	date_end DATE_TIME NOT NULL,
+	location VARCHAR(32),
+	description VARCHAR(256),
+	id_recurrence INT REFERENCES id(id_recurrence),            -- enum[not, day, week, month, year]
+	id_calendarType INT REFERENCES id(id_calendarType)         -- enum[fridray, icallandar, google]
+) [50004-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.command.Parser.parseColumnWithType(Parser.java:5971)
+	at org.h2.command.Parser.parseColumnForTable(Parser.java:5697)
+	at org.h2.command.Parser.parseTableColumnDefinition(Parser.java:8442)
+	at org.h2.command.Parser.parseCreateTable(Parser.java:8379)
+	at org.h2.command.Parser.parseCreate(Parser.java:6276)
+	at org.h2.command.Parser.parsePrepared(Parser.java:903)
+	at org.h2.command.Parser.parse(Parser.java:843)
+	at org.h2.command.Parser.parse(Parser.java:815)
+	at org.h2.command.Parser.prepare(Parser.java:722)
+	at org.h2.engine.Session.prepare(Session.java:622)
+	at org.h2.engine.Session.prepare(Session.java:606)
+	at org.h2.command.dml.RunScriptCommand.execute(RunScriptCommand.java:75)
+	at org.h2.command.dml.RunScriptCommand.update(RunScriptCommand.java:58)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:198)
+	at org.h2.command.Command.executeUpdate(Command.java:251)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:228)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:201)
+	at org.h2.tools.Shell.execute(Shell.java:470)
+	at org.h2.tools.Shell.promptLoop(Shell.java:295)
+	at org.h2.tools.Shell.runTool(Shell.java:152)
+	at org.h2.tools.Shell.main(Shell.java:81)
+2021-11-02 11:36:26 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[[*]A
+"; SQL statement:
+[A
+ [42000-200]
+2021-11-02 11:37:01 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "                        
+""2000-10-31T01:30:00.000-05:00""[*],""2000-11-01T01:30:00.000-05:00"",""Paris"",""test"",1,1
+"; SQL statement:
+---Filling table event :
+"2000-10-31T01:30:00.000-05:00","2000-11-01T01:30:00.000-05:00","Paris","test",1,1
+ [42000-200]
+2021-11-02 11:39:47 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:/home/luca/Documents/gasche-szczech/friday-back/h2Data/testdb.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.get(DbException.java:194)
+	at org.h2.message.DbException.convert(DbException.java:347)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2877)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:481)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:402)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:3579)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:170)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:103)
+	at org.h2.engine.Database.getPageStore(Database.java:2659)
+	at org.h2.engine.Database.open(Database.java:675)
+	at org.h2.engine.Database.openDatabase(Database.java:307)
+	at org.h2.engine.Database.<init>(Database.java:301)
+	at org.h2.engine.Engine.openSession(Engine.java:74)
+	at org.h2.engine.Engine.openSession(Engine.java:192)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:171)
+	at org.h2.engine.Engine.createSession(Engine.java:166)
+	at org.h2.engine.Engine.createSession(Engine.java:29)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:340)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:173)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:152)
+	at org.h2.Driver.connect(Driver.java:69)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
+	at uge.friday.data.H2Test.main(H2Test.java:15)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:/home/luca/Documents/gasche-szczech/friday-back/h2Data/testdb.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	... 25 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:/home/luca/Documents/gasche-szczech/friday-back/h2Data/testdb.mv.db [1.4.200/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
+	at org.h2.mvstore.FileStore.open(FileStore.java:172)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
+	... 19 more
+2021-11-02 11:41:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "EVENT" not found; SQL statement:
+SELECT * FROM event [42102-200]
+2021-11-02 11:42:45 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLNonTransientException: Unknown data type: "DATE_TIME"; SQL statement:
+
+
+CREATE TABLE event (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	date_start DATE_TIME NOT NULL,
+	date_end DATE_TIME NOT NULL,
+	location VARCHAR(32),
+	description VARCHAR(256),
+	id_recurrence INT REFERENCES id(id_recurrence),            -- enum[not, day, week, month, year]
+	id_calendarType INT REFERENCES id(id_calendarType)         -- enum[fridray, icallandar, google]
+) [50004-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.command.Parser.parseColumnWithType(Parser.java:5971)
+	at org.h2.command.Parser.parseColumnForTable(Parser.java:5697)
+	at org.h2.command.Parser.parseTableColumnDefinition(Parser.java:8442)
+	at org.h2.command.Parser.parseCreateTable(Parser.java:8379)
+	at org.h2.command.Parser.parseCreate(Parser.java:6276)
+	at org.h2.command.Parser.parsePrepared(Parser.java:903)
+	at org.h2.command.Parser.parse(Parser.java:843)
+	at org.h2.command.Parser.parse(Parser.java:815)
+	at org.h2.command.Parser.prepare(Parser.java:722)
+	at org.h2.engine.Session.prepare(Session.java:622)
+	at org.h2.engine.Session.prepare(Session.java:606)
+	at org.h2.command.dml.RunScriptCommand.execute(RunScriptCommand.java:75)
+	at org.h2.command.dml.RunScriptCommand.update(RunScriptCommand.java:58)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:198)
+	at org.h2.command.Command.executeUpdate(Command.java:251)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:228)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:201)
+	at org.h2.tools.Shell.execute(Shell.java:470)
+	at org.h2.tools.Shell.promptLoop(Shell.java:295)
+	at org.h2.tools.Shell.runTool(Shell.java:152)
+	at org.h2.tools.Shell.main(Shell.java:81)

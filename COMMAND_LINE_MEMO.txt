@@ -31,3 +31,6 @@ Password  123
 
 #Start database web server (we don't need this because our application will start the server at launch)
 java -jar h2-1.4.200.jar -baseDir ../../h2Data/testdb
+
+#Add script table
+RUNSCRIPT FROM 'path';

@@ -15,7 +15,7 @@ public class H2Test {
             Connection conn = DriverManager.getConnection("jdbc:h2:./h2Data/testdb", "test", "123");
             System.out.println("Connection Established: " + conn.getMetaData().getDatabaseProductName() + "/" + conn.getCatalog());
 
-            var query = "SELECT * FROM cars";
+            var query = "SELECT * FROM event";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
 
