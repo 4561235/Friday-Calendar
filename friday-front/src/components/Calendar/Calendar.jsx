@@ -4,12 +4,18 @@ import Day from "./Day.jsx";
 class Calendar extends Component{
 
     monthToString = {1:"Janvier", 2:"Fevrier", 3:"Mars", 4:"Avril", 5:"Mai", 6:"Juin", 7:"Juillet", 8:"Aout", 9:"Septembre", 10:"Octobre", 11:"Novembre", 12:"Decembre"}
+    
 
     constructor(props){
         super(props)
         const date = new Date();
         this.state = {
-            events: [],
+            events: [
+                {"id":1,"from":{"day":10,"month":11,"year":2021,"time":{"hour":7,"minute":30}},"to":{"day":15,"month":11,"year":2021,"time":{"hour":10,"minute":30}},"title":"Vacances","location":"Paris","description":"Vacances a la mer","recurrence":"NONE","calendarType":"FRIDAY"},
+                {"id":2,"from":{"day":20,"month":11,"year":2021,"time":{"hour":7,"minute":30}},"to":{"day":23,"month":11,"year":2021,"time":{"hour":10,"minute":30}},"title":"Projet","location":"Paris","description":"Faire projet java","recurrence":"NONE","calendarType":"FRIDAY"},
+                {"id":3,"from":{"day":29,"month":11,"year":2021,"time":{"hour":7,"minute":30}},"to":{"day":2,"month":12,"year":2021,"time":{"hour":10,"minute":30}},"title":"Repos","location":"Paris","description":"Je me repose","recurrence":"NONE","calendarType":"FRIDAY"},
+                {"id":4,"from":{"day":2,"month":10,"year":2021,"time":{"hour":7,"minute":30}},"to":{"day":12,"month":11,"year":2021,"time":{"hour":10,"minute":30}},"title":"Bruh","location":"Paris","description":"Le seum","recurrence":"NONE","calendarType":"FRIDAY"}
+            ],
             // month: date.getMonth()+1,
             // year: date.getYear()
             month: 11,
@@ -27,13 +33,15 @@ class Calendar extends Component{
 
     componentDidMount(){
         //console.log(Array.from(Array(this.daysInMonth(11,2021)).keys()));
-        console.log(this.state.month);
+        //console.log(this.state.month);
+        console.log(new Date(2021,10,10) <= new Date(this.state.year,this.state.month,15) && 
+        new Date(2021,10,20) >= new Date(this.state.year,this.state.month,15))
     }
 
     renderCalendar = () => {
         let tab = Array.from(Array(this.daysInMonth(this.state.month, this.state.year)).keys());
         let retTab = [];
-
+        
         let row = 1;
         let accTab = [];
         for (let index = 0; index < tab.length; index++) {
@@ -44,8 +52,17 @@ class Calendar extends Component{
                 row+=1;
             }
             //Push the day
-            accTab.push(<td key={"Line_"+index}><Day day={tab[index]+1}></Day></td>);
-            //accTab.push(<td key={index}>{tab[index]+1}</td>);
+            let dayEvents = [];
+            this.state.events.forEach(event => {
+                if(
+                    (new Date(event.from.year, event.from.month-1, event.from.day) <= new Date(this.state.year, this.state.month-1, tab[index]+1)) &&
+                    (new Date(event.to.year, event.to.month-1, event.to.day) >= new Date(this.state.year, this.state.month-1, tab[index]+1))
+                ){
+                    dayEvents.push(event);
+                }
+            });
+
+            accTab.push(<td key={"Line_"+index}><Day day={tab[index]+1} events={dayEvents}></Day></td>);
         }
         //Push remaining row
         retTab.push(<tr key={"Row_" +5}>{accTab}</tr>);
@@ -74,11 +91,11 @@ class Calendar extends Component{
       }
 
       addYear(){
-        this.setState({year: this.state.year+1}); 
+        this.setState({year: this.state.year+1});
       }
 
       subYear(){
-        this.setState({year: this.state.year-1}); 
+        this.setState({year: this.state.year-1});
       }
 
     render(){
