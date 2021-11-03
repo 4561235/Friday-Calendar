@@ -1,4 +1,5 @@
 import React, {Component} from "react";
+import Day from "./Day.jsx";
 
 class Calendar extends Component{
 
@@ -38,15 +39,16 @@ class Calendar extends Component{
         for (let index = 0; index < tab.length; index++) {
             if (index === row*7) {
                 //Push a row
-                retTab.push(<tr key={index}>{accTab}</tr>);
+                retTab.push(<tr key={"Row_" +index}>{accTab}</tr>);
                 accTab=[];
                 row+=1;
             }
             //Push the day
-            accTab.push(<td key={index}>{tab[index]+1}</td>);
+            accTab.push(<td key={"Line_"+index}><Day day={tab[index]+1}></Day></td>);
+            //accTab.push(<td key={index}>{tab[index]+1}</td>);
         }
         //Push remaining row
-        retTab.push(<tr key={5}>{accTab}</tr>);
+        retTab.push(<tr key={"Row_" +5}>{accTab}</tr>);
 
         return retTab;
       }
@@ -93,7 +95,6 @@ class Calendar extends Component{
                         {this.renderCalendar()}
                     </tbody>
                 </table>
-                
             </div>
         );
     }
