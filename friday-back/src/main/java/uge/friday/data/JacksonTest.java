@@ -7,11 +7,12 @@ public class JacksonTest {
 
     public static void main(String[] args) throws JsonProcessingException {
         CalendarEvent event = new CalendarEvent(
+                1,
                 new CalendarDate(10,2,2021, new CalendarTime(7,30)),
                 new CalendarDate(12,2,2021, new CalendarTime(10,30)),
                 EventRecurrenceEnum.NONE,
                 CalendarTypeEnum.FRIDAY,
-                "Paris", "Vacances");
+                "Vacances","Paris", "Vacances a la mer");
 
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(event);

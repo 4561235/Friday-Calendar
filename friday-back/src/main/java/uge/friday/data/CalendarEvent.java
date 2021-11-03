@@ -4,25 +4,38 @@ import java.util.Objects;
 
 public class CalendarEvent {
 
+    private final int id;
     private final CalendarDate from;
     private final CalendarDate to;
+    private final String title;
     private final String location;
     private final String description;
     private final EventRecurrenceEnum recurrence;
     private final CalendarTypeEnum calendarType;
 
-    public CalendarEvent(CalendarDate from, CalendarDate to, EventRecurrenceEnum recurrence, CalendarTypeEnum calendarType, String location, String description){
+    public CalendarEvent(int id, CalendarDate from, CalendarDate to, EventRecurrenceEnum recurrence, CalendarTypeEnum calendarType, String title, String location, String description){
         Objects.requireNonNull(from);
         Objects.requireNonNull(to);
+        Objects.requireNonNull(title);
         Objects.requireNonNull(description);
         Objects.requireNonNull(location);
 
+        this.id = id;
+        this.title = title;
         this.from = from;
         this.to = to;
         this.recurrence = recurrence;
         this.calendarType = calendarType;
         this.location = location;
         this.description = description;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public String getTitle() {
+        return title;
     }
 
     public CalendarDate getFrom() {
