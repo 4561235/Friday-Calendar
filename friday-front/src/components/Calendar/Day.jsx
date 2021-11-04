@@ -1,9 +1,7 @@
 import React, {Component} from "react";
+import "./Day.css";
 
 class Day extends Component{
-    constructor(props){
-        super(props)
-    }
 
     componentDidMount(){
         //console.log("Day " +this.state.day);
@@ -17,12 +15,11 @@ class Day extends Component{
 
     render(){
         return(
-            <React.Fragment>
-                {this.props.day}
-                <br></br>
+            <td className="calendar-day">
+                <p className="day-num">{this.props.day}</p>
+                {/* <br></br> */}
                 {this.props.events.map(ev => <React.Fragment key={ev.id}><br></br>{ev.description}</React.Fragment>)}
-                <br></br>
-            </React.Fragment>
+            </td>
         );
     }
 }

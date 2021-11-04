@@ -1,5 +1,6 @@
 import React, {Component} from "react";
 import Day from "./Day.jsx";
+import "./Calendar.css";
 
 class Calendar extends Component{
 
@@ -14,7 +15,9 @@ class Calendar extends Component{
                 {"id":1,"from":{"day":10,"month":11,"year":2021,"time":{"hour":7,"minute":30}},"to":{"day":15,"month":11,"year":2021,"time":{"hour":10,"minute":30}},"title":"Vacances","location":"Paris","description":"Vacances a la mer","recurrence":"NONE","calendarType":"FRIDAY"},
                 {"id":2,"from":{"day":20,"month":11,"year":2021,"time":{"hour":7,"minute":30}},"to":{"day":23,"month":11,"year":2021,"time":{"hour":10,"minute":30}},"title":"Projet","location":"Paris","description":"Faire projet java","recurrence":"NONE","calendarType":"FRIDAY"},
                 {"id":3,"from":{"day":29,"month":11,"year":2021,"time":{"hour":7,"minute":30}},"to":{"day":2,"month":12,"year":2021,"time":{"hour":10,"minute":30}},"title":"Repos","location":"Paris","description":"Je me repose","recurrence":"NONE","calendarType":"FRIDAY"},
-                {"id":4,"from":{"day":2,"month":10,"year":2021,"time":{"hour":7,"minute":30}},"to":{"day":12,"month":11,"year":2021,"time":{"hour":10,"minute":30}},"title":"Bruh","location":"Paris","description":"Le seum","recurrence":"NONE","calendarType":"FRIDAY"}
+                {"id":4,"from":{"day":2,"month":10,"year":2021,"time":{"hour":7,"minute":30}},"to":{"day":12,"month":11,"year":2021,"time":{"hour":10,"minute":30}},"title":"Bruh","location":"Paris","description":"Le seum","recurrence":"NONE","calendarType":"FRIDAY"},
+                {"id":5,"from":{"day":10,"month":11,"year":2021,"time":{"hour":7,"minute":30}},"to":{"day":12,"month":11,"year":2021,"time":{"hour":10,"minute":30}},"title":"Overwatch","location":"Paris","description":"Jouer a Overwatch","recurrence":"NONE","calendarType":"FRIDAY"},
+                {"id":6,"from":{"day":10,"month":11,"year":2021,"time":{"hour":7,"minute":30}},"to":{"day":12,"month":11,"year":2021,"time":{"hour":10,"minute":30}},"title":"Sombra","location":"Paris","description":"Mainer sombra","recurrence":"NONE","calendarType":"FRIDAY"}
             ],
             // month: date.getMonth()+1,
             // year: date.getYear()
@@ -62,7 +65,7 @@ class Calendar extends Component{
                 }
             });
 
-            accTab.push(<td key={"Line_"+index}><Day day={tab[index]+1} events={dayEvents}></Day></td>);
+            accTab.push(<Day key={"Day_"+index} day={tab[index]+1} events={dayEvents}></Day>);
         }
         //Push remaining row
         retTab.push(<tr key={"Row_" +5}>{accTab}</tr>);
@@ -102,11 +105,11 @@ class Calendar extends Component{
         return (
             <div align="center">
                 <h2>Calendar</h2>
-                <h4>{this.monthToString[this.state.month] +" " +this.state.year}</h4>
-                <button onClick={this.subMonth}>{"<-"}</button>
-                <button onClick={this.addMonth}>{"->"}</button>
-                <button onClick={this.subYear}>{"<="}</button>
-                <button onClick={this.addYear}>{"=>"}</button>
+                <h4 className="calendar-month">{this.monthToString[this.state.month] +" " +this.state.year}</h4>
+                <button className="calendar-btn" onClick={this.subMonth}>{"<-"}</button>
+                <button className="calendar-btn" onClick={this.addMonth}>{"->"}</button>
+                <button className="calendar-btn" onClick={this.subYear}>{"<="}</button>
+                <button className="calendar-btn" onClick={this.addYear}>{"=>"}</button>
                 <table>
                     <tbody>
                         {this.renderCalendar()}
