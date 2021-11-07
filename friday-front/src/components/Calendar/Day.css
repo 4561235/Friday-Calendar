@@ -1,5 +1,6 @@
 .calendar-day{
     @apply
+    text-center
     inline-block
     overflow-auto
     w-48
@@ -30,5 +31,27 @@
     @apply
     flex
     font-bold
+    absolute
+    bg-gray-50
+    rounded-lg
+    border-2
+    pl-2
+    pr-2
+    border-gray-300
     ;
 }
+
+/* .dayName{
+    @apply
+    text-center
+    ml-12
+    pl-1
+    pr-1
+    absolute
+    text-xs
+    bg-gray-50
+    border-gray-300
+    border-2
+    rounded-lg
+    ;
+} */

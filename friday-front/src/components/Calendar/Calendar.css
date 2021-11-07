@@ -35,3 +35,33 @@
 
     ;
 }
+
+.calendar-dayName{
+    @apply
+    text-center
+    inline-block
+    overflow-auto
+    w-48
+    /* h-36 */
+    border-2
+    border-gray-300
+    m-1
+    rounded-md
+    bg-gray-50
+    ;
+}
+
+.day-placeholder{
+    @apply
+    text-center
+    inline-block
+    overflow-auto
+    w-48
+    h-36
+    border-2
+    border-gray-300
+    m-1
+    rounded-md
+    bg-gray-200
+    ;
+}
