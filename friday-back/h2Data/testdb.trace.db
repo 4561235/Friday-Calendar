@@ -301,3 +301,393 @@ CREATE TABLE event (
 	at org.h2.tools.Shell.promptLoop(Shell.java:295)
 	at org.h2.tools.Shell.runTool(Shell.java:152)
 	at org.h2.tools.Shell.main(Shell.java:81)
+2021-11-03 08:56:16 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ID" not found; SQL statement:
+
+
+CREATE TABLE event (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	date_start TIMESTAMP NOT NULL,
+	date_end TIMESTAMP NOT NULL,
+	location VARCHAR(32),
+	description VARCHAR(256),
+	id_recurrence INT REFERENCES id(id_recurrence),            -- enum[not, day, week, month, year]
+	id_calendarType INT REFERENCES id(id_calendarType)         -- enum[fridray, icallandar, google]
+) [42102-200]
+2021-11-03 08:57:06 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "ID" not found; SQL statement:
+
+
+CREATE TABLE event (
+	id INT PRIMARY KEY AUTO_INCREMENT,
+	date_start TIMESTAMP NOT NULL,
+	date_end TIMESTAMP NOT NULL,
+	location VARCHAR(32),
+	description VARCHAR(256),
+	id_recurrence INT REFERENCES id(id_recurrence),            -- enum[not, day, week, month, year]
+	id_calendarType INT REFERENCES id(id_calendarType)         -- enum[fridray, icallandar, google]
+) [42102-200]
+2021-11-03 09:03:17 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "
+
+                                
+0[*],NOTHING
+1,DAILY
+2,WEEKLY
+3,MONTHLY
+4,YEARLY
+
+                                  
+0,FRIDAY
+1,ICLANDAR
+2,GOOGLECALENDAR
+"; SQL statement:
+
+
+---Filling table id_recurrence :
+0,Nothing
+1,Daily
+2,Weekly
+3,Monthly
+4,Yearly
+
+---Filling table id_calendarType :
+0,Friday
+1,iClandar
+2,GoogleCalendar
+ [42000-200]
+2021-11-03 09:03:35 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "
+
+                                
+0[*],NOTHING
+1,DAILY
+2,WEEKLY
+3,MONTHLY
+4,YEARLY
+
+                                  
+0,FRIDAY
+1,ICLANDAR
+2,GOOGLECALENDAR
+"; SQL statement:
+
+
+---Filling table id_recurrence :
+0,Nothing
+1,Daily
+2,Weekly
+3,Monthly
+4,Yearly
+
+---Filling table id_calendarType :
+0,Friday
+1,iClandar
+2,GoogleCalendar
+ [42000-200]
+2021-11-03 09:05:52 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "
+
+                                
+COPY[*] ID_RECURRENCE FROM STDIN CSV"; expected "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT"; SQL statement:
+
+
+---Filling table id_recurrence :
+COPY id_recurrence FROM STDIN csv [42001-200]
+2021-11-03 09:09:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "Nothing" not found; SQL statement:
+
+
+---Filling table id_recurrence :
+INSERT INTO id_recurrence VALUES (0, "Nothing") [42122-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:453)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:163)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:145)
+	at org.h2.command.dml.Insert.prepare(Insert.java:327)
+	at org.h2.command.Parser.prepare(Parser.java:723)
+	at org.h2.engine.Session.prepare(Session.java:622)
+	at org.h2.engine.Session.prepare(Session.java:606)
+	at org.h2.command.dml.RunScriptCommand.execute(RunScriptCommand.java:75)
+	at org.h2.command.dml.RunScriptCommand.update(RunScriptCommand.java:58)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:198)
+	at org.h2.command.Command.executeUpdate(Command.java:251)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:228)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:201)
+	at org.h2.tools.Shell.execute(Shell.java:470)
+	at org.h2.tools.Shell.promptLoop(Shell.java:295)
+	at org.h2.tools.Shell.runTool(Shell.java:152)
+	at org.h2.tools.Shell.main(Shell.java:81)
+2021-11-03 09:11:03 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "Nothing" not found; SQL statement:
+
+
+---Filling table id_recurrence :
+INSERT INTO id_recurrence (id, name) VALUES (0, "Nothing") [42122-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:453)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:163)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:145)
+	at org.h2.command.dml.Insert.prepare(Insert.java:327)
+	at org.h2.command.Parser.prepare(Parser.java:723)
+	at org.h2.engine.Session.prepare(Session.java:622)
+	at org.h2.engine.Session.prepare(Session.java:606)
+	at org.h2.command.dml.RunScriptCommand.execute(RunScriptCommand.java:75)
+	at org.h2.command.dml.RunScriptCommand.update(RunScriptCommand.java:58)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:198)
+	at org.h2.command.Command.executeUpdate(Command.java:251)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:228)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:201)
+	at org.h2.tools.Shell.execute(Shell.java:470)
+	at org.h2.tools.Shell.promptLoop(Shell.java:295)
+	at org.h2.tools.Shell.runTool(Shell.java:152)
+	at org.h2.tools.Shell.main(Shell.java:81)
+2021-11-03 09:11:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "Daily" not found; SQL statement:
+
+INSERT INTO id_recurrence (id, name) VALUES (1, "Daily") [42122-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:453)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:163)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:145)
+	at org.h2.command.dml.Insert.prepare(Insert.java:327)
+	at org.h2.command.Parser.prepare(Parser.java:723)
+	at org.h2.engine.Session.prepare(Session.java:622)
+	at org.h2.engine.Session.prepare(Session.java:606)
+	at org.h2.command.dml.RunScriptCommand.execute(RunScriptCommand.java:75)
+	at org.h2.command.dml.RunScriptCommand.update(RunScriptCommand.java:58)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:198)
+	at org.h2.command.Command.executeUpdate(Command.java:251)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:228)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:201)
+	at org.h2.tools.Shell.execute(Shell.java:470)
+	at org.h2.tools.Shell.promptLoop(Shell.java:295)
+	at org.h2.tools.Shell.runTool(Shell.java:152)
+	at org.h2.tools.Shell.main(Shell.java:81)
+2021-11-03 09:11:41 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column "Daily" not found; SQL statement:
+
+INSERT INTO id_recurrence (id, name) VALUES (1, "Daily") [42122-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:453)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.getColumnException(ExpressionColumn.java:163)
+	at org.h2.expression.ExpressionColumn.optimize(ExpressionColumn.java:145)
+	at org.h2.command.dml.Insert.prepare(Insert.java:327)
+	at org.h2.command.Parser.prepare(Parser.java:723)
+	at org.h2.engine.Session.prepare(Session.java:622)
+	at org.h2.engine.Session.prepare(Session.java:606)
+	at org.h2.command.dml.RunScriptCommand.execute(RunScriptCommand.java:75)
+	at org.h2.command.dml.RunScriptCommand.update(RunScriptCommand.java:58)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:198)
+	at org.h2.command.Command.executeUpdate(Command.java:251)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:228)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:201)
+	at org.h2.tools.Shell.execute(Shell.java:470)
+	at org.h2.tools.Shell.promptLoop(Shell.java:295)
+	at org.h2.tools.Shell.runTool(Shell.java:152)
+	at org.h2.tools.Shell.main(Shell.java:81)
+2021-11-03 09:13:10 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "ID_CALENDARTYPE[*][2~"; expected "INSERT"; SQL statement:
+id_calendarType[2~ [42001-200]
+2021-11-03 09:13:34 database: flush
+org.h2.message.DbException: General error: "java.lang.IllegalStateException: The file is locked: nio:/home/luca/Documents/gasche-szczech/friday-back/h2Data/testdb.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.get(DbException.java:194)
+	at org.h2.message.DbException.convert(DbException.java:347)
+	at org.h2.mvstore.db.MVTableEngine$1.uncaughtException(MVTableEngine.java:93)
+	at org.h2.mvstore.MVStore.handleException(MVStore.java:2877)
+	at org.h2.mvstore.MVStore.panic(MVStore.java:481)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:402)
+	at org.h2.mvstore.MVStore$Builder.open(MVStore.java:3579)
+	at org.h2.mvstore.db.MVTableEngine$Store.open(MVTableEngine.java:170)
+	at org.h2.mvstore.db.MVTableEngine.init(MVTableEngine.java:103)
+	at org.h2.engine.Database.getPageStore(Database.java:2659)
+	at org.h2.engine.Database.open(Database.java:675)
+	at org.h2.engine.Database.openDatabase(Database.java:307)
+	at org.h2.engine.Database.<init>(Database.java:301)
+	at org.h2.engine.Engine.openSession(Engine.java:74)
+	at org.h2.engine.Engine.openSession(Engine.java:192)
+	at org.h2.engine.Engine.createSessionAndValidate(Engine.java:171)
+	at org.h2.engine.Engine.createSession(Engine.java:166)
+	at org.h2.engine.Engine.createSession(Engine.java:29)
+	at org.h2.engine.SessionRemote.connectEmbeddedOrServer(SessionRemote.java:340)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:173)
+	at org.h2.jdbc.JdbcConnection.<init>(JdbcConnection.java:152)
+	at org.h2.Driver.connect(Driver.java:69)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:681)
+	at java.sql/java.sql.DriverManager.getConnection(DriverManager.java:229)
+	at uge.friday.data.H2Test.main(H2Test.java:15)
+Caused by: org.h2.jdbc.JdbcSQLNonTransientException: General error: "java.lang.IllegalStateException: The file is locked: nio:/home/luca/Documents/gasche-szczech/friday-back/h2Data/testdb.mv.db [1.4.200/7]" [50000-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:505)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	... 25 more
+Caused by: java.lang.IllegalStateException: The file is locked: nio:/home/luca/Documents/gasche-szczech/friday-back/h2Data/testdb.mv.db [1.4.200/7]
+	at org.h2.mvstore.DataUtils.newIllegalStateException(DataUtils.java:950)
+	at org.h2.mvstore.FileStore.open(FileStore.java:172)
+	at org.h2.mvstore.MVStore.<init>(MVStore.java:381)
+	... 19 more
+2021-11-03 09:14:23 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SHOW DB[*]"; SQL statement:
+show db [42000-200]
+2021-11-03 11:32:32 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column count does not match; SQL statement:
+
+
+---Filling table event :
+INSERT INTO event VALUES ('2000-10-31T01:30:00.000-05:00','2000-11-01T01:30:00.000-05:00','Paris','test',1,1) [21002-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:453)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.command.dml.Insert.prepare(Insert.java:319)
+	at org.h2.command.Parser.prepare(Parser.java:723)
+	at org.h2.engine.Session.prepare(Session.java:622)
+	at org.h2.engine.Session.prepare(Session.java:606)
+	at org.h2.command.dml.RunScriptCommand.execute(RunScriptCommand.java:75)
+	at org.h2.command.dml.RunScriptCommand.update(RunScriptCommand.java:58)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:198)
+	at org.h2.command.Command.executeUpdate(Command.java:251)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:228)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:201)
+	at org.h2.tools.Shell.execute(Shell.java:470)
+	at org.h2.tools.Shell.promptLoop(Shell.java:295)
+	at org.h2.tools.Shell.runTool(Shell.java:152)
+	at org.h2.tools.Shell.main(Shell.java:81)
+2021-11-03 11:33:49 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "
+
+                        
+INSERT INTO EVENT VALUES (2000-10-31T01[*]:30:00.000-05:00, 2000-11-01T01:30:00.000-05:00, 'Paris', 'test', 1, 1)"; expected "[, ::, AT, FORMAT, *, /, %, +, -, ||, ~, !~, NOT, LIKE, ILIKE, REGEXP, IS, IN, BETWEEN, AND, OR, ,, )"; SQL statement:
+
+
+---Filling table event :
+INSERT INTO event VALUES (2000-10-31T01:30:00.000-05:00, 2000-11-01T01:30:00.000-05:00, 'Paris', 'test', 1, 1) [42001-200]
+2021-11-03 11:34:42 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column count does not match; SQL statement:
+
+
+---Filling table event :
+INSERT INTO event VALUES ('2000-10-31T01:30:00.000-05:00', '2000-11-01T01:30:00.000-05:00', 'Paris', 'test', 0, 0) [21002-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:453)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.command.dml.Insert.prepare(Insert.java:319)
+	at org.h2.command.Parser.prepare(Parser.java:723)
+	at org.h2.engine.Session.prepare(Session.java:622)
+	at org.h2.engine.Session.prepare(Session.java:606)
+	at org.h2.command.dml.RunScriptCommand.execute(RunScriptCommand.java:75)
+	at org.h2.command.dml.RunScriptCommand.update(RunScriptCommand.java:58)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:198)
+	at org.h2.command.Command.executeUpdate(Command.java:251)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:228)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:201)
+	at org.h2.tools.Shell.execute(Shell.java:470)
+	at org.h2.tools.Shell.promptLoop(Shell.java:295)
+	at org.h2.tools.Shell.runTool(Shell.java:152)
+	at org.h2.tools.Shell.main(Shell.java:81)
+2021-11-08 01:13:45 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Column count does not match; SQL statement:
+
+
+---Filling table event :
+INSERT INTO event VALUES ('2000-10-31T01:30:00.000-05:00', '2000-11-01T01:30:00.000-05:00', 'Paris', 'test', 0, 0) [21002-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:453)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.message.DbException.get(DbException.java:170)
+	at org.h2.command.dml.Insert.prepare(Insert.java:319)
+	at org.h2.command.Parser.prepare(Parser.java:723)
+	at org.h2.engine.Session.prepare(Session.java:622)
+	at org.h2.engine.Session.prepare(Session.java:606)
+	at org.h2.command.dml.RunScriptCommand.execute(RunScriptCommand.java:75)
+	at org.h2.command.dml.RunScriptCommand.update(RunScriptCommand.java:58)
+	at org.h2.command.CommandContainer.update(CommandContainer.java:198)
+	at org.h2.command.Command.executeUpdate(Command.java:251)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:228)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:201)
+	at org.h2.tools.Shell.execute(Shell.java:470)
+	at org.h2.tools.Shell.promptLoop(Shell.java:295)
+	at org.h2.tools.Shell.runTool(Shell.java:152)
+	at org.h2.tools.Shell.main(Shell.java:81)
+2021-11-08 01:22:29 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "
+
+                        
+INSERT INTO EVENT VALUES ( ,[*] '2000-10-31T01:30:00.000-05:00', '2000-11-01T01:30:00.000-05:00', 'Paris', 'test', 0, 0)"; expected "), DEFAULT, NOT, EXISTS, INTERSECTS, UNIQUE"; SQL statement:
+
+
+---Filling table event :
+INSERT INTO event VALUES ( , '2000-10-31T01:30:00.000-05:00', '2000-11-01T01:30:00.000-05:00', 'Paris', 'test', 0, 0) [42001-200]
+2021-11-08 01:23:19 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "2000-10-31 22:30:00" [22018-200]
+2021-11-08 01:24:22 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SHOW DB[*]"; SQL statement:
+show db [42000-200]
+2021-11-08 01:32:31 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Ambiguous column name "ID"; SQL statement:
+select * from event, id_calendarType, id_recurrence where id_recurrence = id and id_calendarType = id [90059-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:576)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.mapColumn(ExpressionColumn.java:129)
+	at org.h2.expression.ExpressionColumn.mapColumns(ExpressionColumn.java:107)
+	at org.h2.expression.condition.Comparison.mapColumns(Comparison.java:506)
+	at org.h2.expression.condition.ConditionAndOr.mapColumns(ConditionAndOr.java:260)
+	at org.h2.command.dml.Select.mapColumns(Select.java:1603)
+	at org.h2.command.dml.Select.init(Select.java:1125)
+	at org.h2.command.Parser.parseQuery(Parser.java:2627)
+	at org.h2.command.Parser.parsePrepared(Parser.java:868)
+	at org.h2.command.Parser.parse(Parser.java:843)
+	at org.h2.command.Parser.parse(Parser.java:815)
+	at org.h2.command.Parser.prepareCommand(Parser.java:738)
+	at org.h2.engine.Session.prepareLocal(Session.java:657)
+	at org.h2.engine.Session.prepareCommand(Session.java:595)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1235)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:212)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:201)
+	at org.h2.tools.Shell.execute(Shell.java:470)
+	at org.h2.tools.Shell.promptLoop(Shell.java:295)
+	at org.h2.tools.Shell.runTool(Shell.java:152)
+	at org.h2.tools.Shell.main(Shell.java:81)
+2021-11-08 01:33:28 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Ambiguous column name "ID"; SQL statement:
+select * from event, id_calendarType, id_recurrence where id_recurrence = id and id_calendarType = id;[D[D
+ [90059-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:576)
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429)
+	at org.h2.message.DbException.get(DbException.java:205)
+	at org.h2.message.DbException.get(DbException.java:181)
+	at org.h2.expression.ExpressionColumn.mapColumn(ExpressionColumn.java:129)
+	at org.h2.expression.ExpressionColumn.mapColumns(ExpressionColumn.java:107)
+	at org.h2.expression.condition.Comparison.mapColumns(Comparison.java:506)
+	at org.h2.expression.condition.ConditionAndOr.mapColumns(ConditionAndOr.java:260)
+	at org.h2.command.dml.Select.mapColumns(Select.java:1603)
+	at org.h2.command.dml.Select.init(Select.java:1125)
+	at org.h2.command.Parser.parseQuery(Parser.java:2627)
+	at org.h2.command.Parser.parsePrepared(Parser.java:868)
+	at org.h2.command.Parser.parse(Parser.java:843)
+	at org.h2.command.Parser.parse(Parser.java:815)
+	at org.h2.command.Parser.prepareCommand(Parser.java:738)
+	at org.h2.engine.Session.prepareLocal(Session.java:657)
+	at org.h2.engine.Session.prepareCommand(Session.java:595)
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1235)
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:212)
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:201)
+	at org.h2.tools.Shell.execute(Shell.java:470)
+	at org.h2.tools.Shell.promptLoop(Shell.java:295)
+	at org.h2.tools.Shell.runTool(Shell.java:152)
+	at org.h2.tools.Shell.main(Shell.java:81)
+2021-11-08 01:35:38 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "2000-10-31 22:30:00" [22018-200]

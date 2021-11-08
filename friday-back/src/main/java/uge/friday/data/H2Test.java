@@ -15,7 +15,7 @@ public class H2Test {
             Connection conn = DriverManager.getConnection("jdbc:h2:./h2Data/testdb", "test", "123");
             System.out.println("Connection Established: " + conn.getMetaData().getDatabaseProductName() + "/" + conn.getCatalog());
 
-            var query = "SELECT * FROM event";
+            var query = "SELECT * FROM event, id_calendarType, id_recurrence where id_recurrence = id_recurrence.id and id_calendarType = id_calendarType.id;";
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery(query);
 

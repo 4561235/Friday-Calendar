@@ -34,3 +34,10 @@ java -jar h2-1.4.200.jar -baseDir ../../h2Data/testdb
 
 #Add script table
 RUNSCRIPT FROM 'path';
+RUNSCRIPT FROM '/home/luca/Documents/gasche-szczech/friday-back/h2Data/src/event.sql' ;
+
+#Test
+select * from event, id_calendarType, id_recurrence where id_recurrence = id_recurrence.id and id_calendarType = id_calendarType.id;
+
+
+
