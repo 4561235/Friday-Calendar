@@ -13,7 +13,7 @@
     ;
 }
 
-.calendar-day:hover{
+/* .calendar-day:hover{
     @apply
     inline-block
     overflow-auto
@@ -25,7 +25,7 @@
     rounded-md
     bg-blue-100
     ;
-}
+} */
 
 .day-num{
     @apply

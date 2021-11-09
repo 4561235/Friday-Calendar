@@ -2,6 +2,8 @@ import React, {Component} from "react";
 import Day from "./Day.jsx";
 import "./Calendar.css";
 
+import EventPopup from "./EventPopup.jsx";
+
 class Calendar extends Component{
 
     monthToString = {1:"Janvier", 2:"Fevrier", 3:"Mars", 4:"Avril", 5:"Mai", 6:"Juin", 7:"Juillet", 8:"Aout", 9:"Septembre", 10:"Octobre", 11:"Novembre", 12:"Decembre"}
@@ -26,12 +28,22 @@ class Calendar extends Component{
             // month: date.getMonth()+1,
             // year: date.getYear()
             month: 11,
-            year: 2021
+            year: 2021,
+
+            isPopup: false,
+            popupEvent: null
+
         }
         this.addMonth = this.addMonth.bind(this);
         this.subMonth = this.subMonth.bind(this);
         this.addYear = this.addYear.bind(this);
         this.subYear = this.subYear.bind(this);
+
+        this.hideEventPopup = this.hideEventPopup.bind(this);
+        this.showEventPopup = this.showEventPopup.bind(this);
+
+        //TESTING ONLY
+        this.deleteEvent = this.deleteEvent.bind(this);
     }
 
     daysInMonth(month, year) {
@@ -41,6 +53,23 @@ class Calendar extends Component{
     componentDidMount(){
         //console.log(Array.from(Array(this.daysInMonth(11,2021)).keys()));
         //console.log(this.state.month);
+    }
+
+    showEventPopup(event){
+        this.setState({isPopup: true});
+        this.setState({popupEvent: event});
+    }
+
+    //TESTING ONLY
+    deleteEvent(event){
+        this.hideEventPopup();
+        let i = this.state.events.indexOf(event);
+        this.state.events.splice(i,1);
+        this.setState({events: this.state.events.concat([])});
+    }
+
+    hideEventPopup(){
+        this.setState({isPopup: false});
     }
 
     renderCalendar = () => {
@@ -77,7 +106,7 @@ class Calendar extends Component{
             }
             else{
                 //Push the day
-                accTab.push(<Day key={"Day_"+index} day={tab[index]+1} events={dayEvents}></Day>);
+                accTab.push(<Day key={"Day_"+index} day={tab[index]+1} events={dayEvents} showPopup={this.showEventPopup}></Day>);
             }
         }
         //Push remaining row
@@ -86,6 +115,7 @@ class Calendar extends Component{
       }
 
       addMonth(){
+        this.hideEventPopup();
         if(this.state.month === 12){
             this.setState({month: 1});
             this.setState({year: this.state.year+1});
@@ -96,6 +126,7 @@ class Calendar extends Component{
       }
 
       subMonth(){
+        this.hideEventPopup();
         if(this.state.month === 1){
             this.setState({month: 12});
             this.setState({year: this.state.year-1});
@@ -106,10 +137,12 @@ class Calendar extends Component{
       }
 
       addYear(){
+        this.hideEventPopup();
         this.setState({year: this.state.year+1});
       }
 
       subYear(){
+        this.hideEventPopup();
         this.setState({year: this.state.year-1});
       }
 
@@ -136,6 +169,10 @@ class Calendar extends Component{
                         {this.renderCalendar()}
                     </tbody>
                 </table>
+                {this.state.isPopup === true
+                    ? <EventPopup key="popup" event={this.state.popupEvent} hidePopup={this.hideEventPopup} deleteEvent={this.deleteEvent}></EventPopup>
+                    : <React.Fragment></React.Fragment>
+                }
             </div>
         );
     }
