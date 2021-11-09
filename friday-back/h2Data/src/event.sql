@@ -14,6 +14,7 @@ CREATE TABLE id_calendarType (
 
 CREATE TABLE event (
 	id INT PRIMARY KEY AUTO_INCREMENT,
+	title VARCHAR(32) NOT NULL,
 	date_start TIMESTAMP NOT NULL,
 	date_end TIMESTAMP NOT NULL,
 	location VARCHAR(32),
@@ -38,6 +39,6 @@ INSERT INTO id_calendarType VALUES (1, 'iCalendar');
 INSERT INTO id_calendarType VALUES (2, 'GoogleCalendar');
 
 ---Filling table event :
-INSERT INTO event VALUES ( 1, '2000-10-31T01:30:00.000-05:00', '2000-11-01T01:30:00.000-05:00', 'Paris', 'test', 0, 0);
-INSERT INTO event VALUES ( 2, '2021-11-08T01:30:00.000-05:00', '2021-11-08T01:30:00.000-17:00', 'Paris', 'test', 1, 1);
-INSERT INTO event VALUES ( 3, '2021-12-31T01:30:00.000-05:00', '2021-12-01T01:30:00.000-05:00', 'Paris', 'test', 4, 2);
+INSERT INTO event VALUES ( 1, 'title1', '2000-10-31T01:30:00.000-05:00', '2000-11-01T01:30:00.000-05:00', 'Paris', 'descri1', 0, 0);
+INSERT INTO event VALUES ( 2, 'title2', '2021-11-08T01:30:00.000-05:00', '2021-11-08T01:30:00.000-17:00', 'Londre', 'descri2', 1, 1);
+INSERT INTO event VALUES ( 3, 'title3', '2021-12-31T01:30:00.000-05:00', '2021-12-01T01:30:00.000-05:00', 'Espagne', 'descri3', 4, 2);
