@@ -1,16 +1,7 @@
 import React, {Component} from "react";
 import "./CalendarEvent.css";
-import EventPopup from "./EventPopup.jsx";
 
 class CalendarEvent extends Component{
-
-    componentDidMount(){
-
-    }
-
-    componentDidUpdate() {
-  
-    }
 
     render(){
         return(

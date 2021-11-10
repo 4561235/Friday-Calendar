@@ -5,15 +5,6 @@ import CalendarEvent from "./CalendarEvent.jsx";
 class Day extends Component{
 
     days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
-    componentDidMount(){
-        //console.log("Day " +this.state.day);
-        //console.log(this.state.events);
-    }
-
-    componentDidUpdate() {
-  
-    }
-
 
     render(){
         return(

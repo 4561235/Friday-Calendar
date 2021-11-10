@@ -10,7 +10,7 @@ class Calendar extends Component{
     
 
     constructor(props){
-        super(props)
+        super(props);
         //const date = new Date();
         this.state = {
             events: [
