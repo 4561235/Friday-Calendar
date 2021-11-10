@@ -20,7 +20,7 @@ public class H2Test {
             ResultSet rs = st.executeQuery(query);
 
                 while (rs.next()) {
-                    System.out.printf("%d %s %d%n", rs.getInt(1), rs.getString(2), rs.getInt(3));
+                    System.out.printf("%d %s %s %s %s\n", rs.getInt(1), rs.getString(2),rs.getString(5), rs.getString(6), rs.getString(7), rs.getString(12));
                 }
         } catch (Exception e) {
             e.printStackTrace();
