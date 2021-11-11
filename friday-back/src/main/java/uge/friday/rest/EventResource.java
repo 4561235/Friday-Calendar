@@ -15,6 +15,9 @@ public class EventResource {
      * Get all of all event.
      */
     public List<Event> events() {
-        return Event.listAll();
+        //return Event.listAll();
+        List<Event> events = Event.listAll();
+        return events.stream().toList();
     }
+
 }
