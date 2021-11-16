@@ -1,36 +1,26 @@
 import React, {Component} from "react";
 import Day from "./Day.jsx";
 import "./Calendar.css";
+import EventsManager from "../EventsManager.js"
 
 import EventPopup from "./EventPopup.jsx";
 
 class Calendar extends Component{
 
     monthToString = {1:"Janvier", 2:"Fevrier", 3:"Mars", 4:"Avril", 5:"Mai", 6:"Juin", 7:"Juillet", 8:"Aout", 9:"Septembre", 10:"Octobre", 11:"Novembre", 12:"Decembre"}
-    
+    eventsManager = new EventsManager();
 
     constructor(props){
         super(props);
-        //const date = new Date();
+        const date = new Date();
+        
         this.state = {
-            events: [
-                {"id":1,"from":{"day":10,"month":11,"year":2021,"time":{"hour":7,"minute":30}},"to":{"day":15,"month":11,"year":2021,"time":{"hour":10,"minute":30}},"title":"Vacances","location":"Paris","description":"Vacances a la mer","recurrence":"NONE","calendarType":"FRIDAY"},
-                {"id":2,"from":{"day":20,"month":11,"year":2021,"time":{"hour":7,"minute":30}},"to":{"day":23,"month":11,"year":2021,"time":{"hour":10,"minute":30}},"title":"Projet","location":"Paris","description":"Faire projet java","recurrence":"NONE","calendarType":"FRIDAY"},
-                {"id":3,"from":{"day":29,"month":11,"year":2021,"time":{"hour":7,"minute":30}},"to":{"day":2,"month":12,"year":2021,"time":{"hour":10,"minute":30}},"title":"Repos","location":"Paris","description":"Je me repose","recurrence":"NONE","calendarType":"FRIDAY"},
-                {"id":4,"from":{"day":2,"month":10,"year":2021,"time":{"hour":7,"minute":30}},"to":{"day":12,"month":11,"year":2021,"time":{"hour":10,"minute":30}},"title":"Bruh","location":"Paris","description":"Le seum","recurrence":"NONE","calendarType":"FRIDAY"},
-                {"id":5,"from":{"day":10,"month":11,"year":2021,"time":{"hour":7,"minute":30}},"to":{"day":12,"month":11,"year":2021,"time":{"hour":10,"minute":30}},"title":"Overwatch","location":"Paris","description":"Jouer a Overwatch","recurrence":"NONE","calendarType":"FRIDAY"},
-                {"id":6,"from":{"day":10,"month":11,"year":2021,"time":{"hour":7,"minute":30}},"to":{"day":12,"month":11,"year":2021,"time":{"hour":10,"minute":30}},"title":"Sombra","location":"Paris","description":"Mainer sombra","recurrence":"NONE","calendarType":"FRIDAY"},
-                {"id":7,"from":{"day":10,"month":11,"year":2021,"time":{"hour":7,"minute":30}},"to":{"day":12,"month":11,"year":2021,"time":{"hour":10,"minute":30}},"title":"Sombra","location":"Paris","description":"Mainer sombra","recurrence":"NONE","calendarType":"FRIDAY"},
-                {"id":8,"from":{"day":10,"month":11,"year":2021,"time":{"hour":7,"minute":30}},"to":{"day":12,"month":11,"year":2021,"time":{"hour":10,"minute":30}},"title":"Sombra","location":"Paris","description":"Mainer sombra","recurrence":"NONE","calendarType":"FRIDAY"}
-
-
-            ],
-            // month: date.getMonth()+1,
-            // year: date.getYear()
-            month: 11,
-            year: 2021,
+            events: this.eventsManager.getEvents(), 
+            month: date.getMonth()+1,
+            year: date.getFullYear(),
 
             isPopup: false,
+            addingEventMode: false,
             popupEvent: null
 
         }
@@ -42,17 +32,11 @@ class Calendar extends Component{
         this.hideEventPopup = this.hideEventPopup.bind(this);
         this.showEventPopup = this.showEventPopup.bind(this);
 
-        //TESTING ONLY
-        this.deleteEvent = this.deleteEvent.bind(this);
+        this.addEvent = this.addEvent.bind(this);
     }
 
     daysInMonth(month, year) {
         return new Date(year, month, 0).getDate();
-    }
-
-    componentDidMount(){
-        //console.log(Array.from(Array(this.daysInMonth(11,2021)).keys()));
-        //console.log(this.state.month);
     }
 
     showEventPopup(event){
@@ -60,17 +44,16 @@ class Calendar extends Component{
         this.setState({popupEvent: event});
     }
 
-    //TESTING ONLY
-    deleteEvent(event){
-        this.hideEventPopup();
-        let i = this.state.events.indexOf(event);
-        this.state.events.splice(i,1);
-        this.setState({events: this.state.events.concat([])});
-    }
-
     hideEventPopup(){
         this.setState({isPopup: false});
+        this.setState({addingEventMode: false});
     }
+
+    addEvent(){
+        this.setState({addingEventMode: true});
+        this.showEventPopup(this.eventsManager.createBlankEvent(this.state.year, this.state.month));
+    }
+
 
     renderCalendar = () => {
         let tab = Array.from(Array(this.daysInMonth(this.state.month, this.state.year)).keys());
@@ -149,12 +132,12 @@ class Calendar extends Component{
     render(){
         return (
             <div align="center">
-                <h2>Calendar</h2>
                 <h4 className="calendar-month">{this.monthToString[this.state.month] +" " +this.state.year}</h4>
                 <button className="calendar-btn" onClick={this.subMonth}>{"<-"}</button>
                 <button className="calendar-btn" onClick={this.addMonth}>{"->"}</button>
                 <button className="calendar-btn" onClick={this.subYear}>{"<="}</button>
                 <button className="calendar-btn" onClick={this.addYear}>{"=>"}</button>
+                <button className="calendar-btn" onClick={this.addEvent}>+</button>
                 <table>
                     <tbody>
                         <tr>
@@ -170,7 +153,13 @@ class Calendar extends Component{
                     </tbody>
                 </table>
                 {this.state.isPopup === true
-                    ? <EventPopup key="popup" event={this.state.popupEvent} hidePopup={this.hideEventPopup} deleteEvent={this.deleteEvent}></EventPopup>
+                    ? <EventPopup key={"popup" +this.state.addingEventMode}
+                                event={this.state.popupEvent}
+                                hidePopup={this.hideEventPopup} 
+                                addingEventMode={this.state.addingEventMode} 
+                                eventsManager={this.eventsManager} 
+                                month={this.state.month} year={this.state.year}> 
+                    </EventPopup>
                     : <React.Fragment></React.Fragment>
                 }
             </div>

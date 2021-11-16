@@ -15,7 +15,6 @@ class EventPopup extends Component{
 
         this.state = {
             modifyMode: false,
-
             title: this.props.event.title,
             description: this.props.event.description,
             location: this.props.event.location,
@@ -23,9 +22,11 @@ class EventPopup extends Component{
             to: this.props.event.to.year +"-" +this.props.event.to.month +"-" +adjustToDay,
             recurrence: this.props.event.recurrence
         }
-
+        
         this.setModifyMode = this.setModifyMode.bind(this);
         this.sendToUpdate = this.sendToUpdate.bind(this);
+        this.sendToDelete = this.sendToDelete.bind(this);
+        this.sendToAdd = this.sentToAdd.bind(this);
     }
 
     setModifyMode(boolean){
@@ -33,61 +34,70 @@ class EventPopup extends Component{
     }
 
     sendToUpdate(){
+        this.props.hidePopup();
         this.setModifyMode(false);
-        
-        let updEvent = this.props.event;
-        updEvent.title = this.state.title;
-        updEvent.description = this.state.description;
-        updEvent.location = this.state.location;
 
         let dateFromSplit = this.state.from.split("-");
         let dateToSplit = this.state.to.split("-");
-        
-        updEvent.from.year = dateFromSplit[0];
-        updEvent.from.month = dateFromSplit[1];
-        updEvent.from.day = dateFromSplit[2];
 
-        updEvent.to.year = dateToSplit[0];
-        updEvent.to.month = dateToSplit[1];
-        updEvent.to.day = dateToSplit[2];
-        
-        updEvent.recurrence = this.state.recurrence;
+        this.props.eventsManager.updateEvent(this.props.event.id, 
+                                            dateFromSplit[0], dateFromSplit[1], dateFromSplit[2],
+                                            dateToSplit[0], dateToSplit[1], dateToSplit[2],
+                                            this.state.title, this.state.location, this.state.description, this.state.recurrence);
 
-        this.props.hidePopup();
     }
 
+    sendToDelete(event){
+        this.props.hidePopup();
+        this.props.eventsManager.deleteEvent(event);
+    }
+
+    sentToAdd(){
+        this.props.hidePopup();
+        let dateFromSplit = this.state.from.split("-");
+        let dateToSplit = this.state.to.split("-");
+
+        this.props.eventsManager.addEvent( dateFromSplit[0], dateFromSplit[1], dateFromSplit[2],
+                                            dateToSplit[0], dateToSplit[1], dateToSplit[2],
+                                            this.state.title, this.state.location, this.state.description, this.state.recurrence);
+    }
 
     render(){
         return(
             <React.Fragment>
-                {this.state.modifyMode === false
+                {this.state.modifyMode === false && this.props.addingEventMode === false
     
                 ? <div className="popup">
-                    <button className="popup-btn-close" onClick={this.props.hidePopup}>X</button>
-                    <p><b>Title:</b> {this.props.event.title}</p>
-                    <p><b>Description:</b> {this.props.event.description}</p>
-                    <p><b>Location:</b> {this.props.event.location}</p>
+                    <button type="button" className="popup-btn-close" onClick={this.props.hidePopup}>X</button>
+                    <p><b>{this.props.event.title}</b></p>
+                    <p>{this.props.event.description}</p>
+                    <p>{this.props.event.location}</p>
                     <p><b>From:</b> {this.props.event.from.day}/{this.props.event.from.month}/{this.props.event.from.year}</p>
                     <p><b>To:</b> {this.props.event.to.day}/{this.props.event.to.month}/{this.props.event.to.year}</p>
                     
-                    <button className="popup-btn" onClick={() => this.setModifyMode(true)}>Modify</button>
-                    <button className="popup-btn" onClick={() => this.props.deleteEvent(this.props.event)}>Delete</button>
+                    <button type="button" className="popup-btn" onClick={() => this.setModifyMode(true)}>Modify</button>
+                    <button type="button" className="popup-btn" onClick={() => this.sendToDelete(this.props.event)}>Delete</button>
                 </div>
     
-                : <form onSubmit={this.sendToUpdate}>
-                    <div className="popup">
-                        <button className="popup-btn-close" onClick={this.props.hidePopup}>X</button>
+                :<div className="popup">
+                    
+                    
+                    
+                    <form onSubmit={e => {e.preventDefault(); if(this.props.addingEventMode) this.sendToAdd(); else this.sendToUpdate();}}>
+                        {this.state.modifyMode ? <b>Modify Event</b> : <b>Add Event</b> }
+                        <button type="button" className="popup-btn-close" onClick={this.props.hidePopup}>X</button>
+                        
 
                         <p><b>Title:  </b>
-                            <input className="text-input" type="text" required="required" title="Max 64 characteres" pattern="[A-Za-z0-9 ]{1,64}" value={this.state.title} onChange={e => this.setState({title: e.target.value})}/>
+                            <input className="text-input" type="text" required="required" title="Max 64 characteres" pattern="{1,64}" value={this.state.title} onChange={e => this.setState({title: e.target.value})}/>
                         </p>
 
                         <p><b>Description:  </b>
-                            <input className="text-input" type="text" title="Max 128 characteres" pattern="[A-Za-z0-9 ]{1,128}" value={this.state.description} onChange={e => this.setState({description: e.target.value})}/>
+                            <input className="text-input" type="text" title="Max 128 characteres" pattern="{1,128}" value={this.state.description} onChange={e => this.setState({description: e.target.value})}/>
                         </p>
 
                         <p><b>Location:  </b>
-                            <input className="text-input" type="text" title="Max 64 characteres" pattern="[A-Za-z0-9 ]{1,64}" value={this.state.location} onChange={e => this.setState({location: e.target.value})}/>
+                            <input className="text-input" type="text" title="Max 64 characteres" pattern="{1,64}" value={this.state.location} onChange={e => this.setState({location: e.target.value})}/>
                         </p>
 
                         <p><b>From: </b>
@@ -108,10 +118,9 @@ class EventPopup extends Component{
                             </select>
                         </p>
 
-
                         <input type="submit" className="popup-btn" value="Save"/>
-                    </div>
-                </form> 
+                    </form> 
+                </div>
                 }
             </React.Fragment>
         );

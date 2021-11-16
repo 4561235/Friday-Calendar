@@ -8,15 +8,16 @@
     bottom-0
 
     m-auto
-
+    
     overflow-auto
 
-    w-80
-    h-72
+    w-96
+    h-80
     border-4
-    border-black
+    border-blue-300
     rounded-md
-    bg-blue-50
+    bg-white
+    /* bg-opacity-90 */
     ;
 }
 
@@ -71,30 +72,66 @@
 
 .text-input{
     @apply 
-    bg-gray-200
+    bg-blue-50
+    rounded-md
+    mb-1
+    border-solid
+    border-2
+    border-black
     ;
 }
+
+/* .text-input:focus-visible{
+    @apply 
+    bg-gray-200
+    rounded-md
+    mb-1
+    border-solid
+    border-2
+    border-blue-500
+    ;
+} */
 
 .text-input:invalid{
     @apply 
     bg-red-300
+    rounded-md
+    mb-1
+    border-solid
+    border-2
+    border-black
     ;
 }
 
 .date-input{
     @apply
-    bg-gray-200
+    bg-blue-50
+    rounded-md
+    mb-1
+    border-solid
+    border-2
+    border-black
     ;
 }
 
 .date-input:invalid{
     @apply
     bg-red-300
+    rounded-md
+    mb-1
+    border-solid
+    border-2
+    border-black
     ;
 }
 
 .date-input:out-of-range{
     @apply
     bg-red-300
+    rounded-md
+    mb-1
+    border-solid
+    border-2
+    border-black
     ;
 }
