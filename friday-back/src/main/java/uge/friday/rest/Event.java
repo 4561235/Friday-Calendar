@@ -5,6 +5,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
 /**
  * Database data persistence class.
+ * extends PanacheEntity
  */
 @Entity
 public class Event extends PanacheEntity {
