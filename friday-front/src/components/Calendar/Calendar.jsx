@@ -13,9 +13,13 @@ class Calendar extends Component{
     constructor(props){
         super(props);
         const date = new Date();
-        
+        // const initMonth = date.getMonth()+1
+        // const initYear = date.getFullYear()
+
         this.state = {
-            events: this.eventsManager.getEvents(), 
+            //events: this.eventsManager.getEvents(year, month), 
+            //events: this.eventsManager.getEvents(initYear, initMonth),
+            events: [],
             month: date.getMonth()+1,
             year: date.getFullYear(),
 
@@ -24,6 +28,7 @@ class Calendar extends Component{
             popupEvent: null
 
         }
+        
         this.addMonth = this.addMonth.bind(this);
         this.subMonth = this.subMonth.bind(this);
         this.addYear = this.addYear.bind(this);
@@ -33,6 +38,28 @@ class Calendar extends Component{
         this.showEventPopup = this.showEventPopup.bind(this);
 
         this.addEvent = this.addEvent.bind(this);
+    }
+
+    componentDidMount(){
+        this.fetchEvents(this.state.year, this.state.month)
+    }
+
+    fetchEvents(year, month){
+        // console.log("Date: " +year +" " +month)
+        var promise = this.eventsManager.fetchEvents(year, month)
+        promise.then( result => {
+            //console.log(result)
+            this.setState({events: result})
+            // result.forEach(element => {
+            //     this.setState({events: this.state.events.concat([element])})
+            // });
+        }, function(error) {
+            console.log(error)
+        });
+        
+        
+        
+        
     }
 
     daysInMonth(month, year) {
@@ -98,14 +125,16 @@ class Calendar extends Component{
       }
 
       addMonth(){
-        this.hideEventPopup();
-        if(this.state.month === 12){
-            this.setState({month: 1});
-            this.setState({year: this.state.year+1});
-        }
-        else{
-            this.setState({month: this.state.month+1});
-        }
+          this.hideEventPopup();
+          if(this.state.month === 12){
+              this.setState({month: 1});
+              this.setState({year: this.state.year+1});
+              this.fetchEvents(this.state.year+1, 1)
+            }
+            else{
+                this.setState({month: this.state.month+1});
+                this.fetchEvents(this.state.year, this.state.month+1)
+            }
       }
 
       subMonth(){
@@ -113,20 +142,24 @@ class Calendar extends Component{
         if(this.state.month === 1){
             this.setState({month: 12});
             this.setState({year: this.state.year-1});
+            this.fetchEvents(this.state.year-1, 12)
         }
         else{
             this.setState({month: this.state.month-1});
+            this.fetchEvents(this.state.year, this.state.month-1)
         }
       }
 
       addYear(){
         this.hideEventPopup();
         this.setState({year: this.state.year+1});
+        this.fetchEvents(this.state.year+1, this.state.month)
       }
 
       subYear(){
         this.hideEventPopup();
         this.setState({year: this.state.year-1});
+        this.fetchEvents(this.state.year-1, this.state.month)
       }
 
     render(){

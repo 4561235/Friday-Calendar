@@ -89,15 +89,15 @@ class EventPopup extends Component{
                         
 
                         <p><b>Title:  </b>
-                            <input className="text-input" type="text" required="required" title="Max 64 characteres" pattern="{1,64}" value={this.state.title} onChange={e => this.setState({title: e.target.value})}/>
+                            <input className="text-input" type="text" required="required" title="Max 64 characteres" pattern=".{0,64}" value={this.state.title} onChange={e => this.setState({title: e.target.value})}/>
                         </p>
 
                         <p><b>Description:  </b>
-                            <input className="text-input" type="text" title="Max 128 characteres" pattern="{1,128}" value={this.state.description} onChange={e => this.setState({description: e.target.value})}/>
+                            <input className="text-input" type="text" title="Max 128 characteres" pattern=".{0,128}" value={this.state.description} onChange={e => this.setState({description: e.target.value})}/>
                         </p>
 
                         <p><b>Location:  </b>
-                            <input className="text-input" type="text" title="Max 64 characteres" pattern="{1,64}" value={this.state.location} onChange={e => this.setState({location: e.target.value})}/>
+                            <input className="text-input" type="text" title="Max 64 characteres" pattern=".{0,64}" value={this.state.location} onChange={e => this.setState({location: e.target.value})}/>
                         </p>
 
                         <p><b>From: </b>

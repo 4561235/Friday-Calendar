@@ -12,9 +12,19 @@ export default class EventsManager{
     ]
 
 
-    getEvents(){
-        return this.#events;
-    }
+    // getEvents(year, month){
+    //     var promise = this.fetchEvents(year, month)
+    //     promise.then( result => {
+    //         console.log(result)
+    //         result.forEach(element => {
+    //             this.#events.push(element)
+    //         });
+    //        }, function(error) {
+    //         console.log(error)
+    //        });
+    
+    //     return this.#events;
+    // }
 
     deleteEvent(event){
         let i = this.#events.indexOf(event);
@@ -56,5 +66,52 @@ export default class EventsManager{
                     "to":{"day":"01","month":month,"year":year,"time":{"hour":10,"minute":30}},
                     "title":"","location":"","description":"","recurrence":"NONE","calendarType":"FRIDAY"};
         return event;
+    }
+
+    // async getAllUsers() {
+
+    //     var promise = fetch("http://localhost:8080/hello/test3", {
+    //       method: 'GET', // *GET, POST, PUT, DELETE, etc.
+    //       mode: 'cors', // no-cors, *cors, same-origin
+    //       cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    //       credentials: 'same-origin', // include, *same-origin, omit
+    //       headers: {
+    //           'Content-Type': 'application/json'//,
+    //           //'Authorization': `Bearer ${this.$jwt.getToken()}`
+    //           // 'Content-Type': 'application/x-www-form-urlencoded',
+    //       },
+    //       redirect: 'follow', // manual, *follow, error
+    //       referrerPolicy: 'no-referrer'
+    //       }).then(response => response.json()).then( (user) => {
+  
+    //         var jsonStr = JSON.stringify(user);
+    //         var temp = JSON.parse(jsonStr);
+    //         return temp;
+    //       });
+  
+    //       return promise;
+    //   }
+
+    fetchEvents(year, month){
+        var promise = fetch("http://localhost:8080/calendar-events/getEvents/" + year + "/" +month, {
+          method: 'GET', // *GET, POST, PUT, DELETE, etc.
+          mode: 'cors', // no-cors, *cors, same-origin
+          cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+          credentials: 'same-origin', // include, *same-origin, omit
+          headers: {
+              'Content-Type': 'application/json'//,
+              //'Authorization': `Bearer ${this.$jwt.getToken()}`
+              // 'Content-Type': 'application/x-www-form-urlencoded',
+          },
+          redirect: 'follow', // manual, *follow, error
+          referrerPolicy: 'no-referrer'
+          }).then(response => response.json()).then( (user) => {
+  
+            var jsonStr = JSON.stringify(user);
+            var temp = JSON.parse(jsonStr);
+            return temp;
+          });
+  
+          return promise;
     }
 }
