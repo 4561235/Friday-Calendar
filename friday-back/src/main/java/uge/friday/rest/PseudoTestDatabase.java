@@ -65,5 +65,13 @@ public class PseudoTestDatabase {
         return List.copyOf(this.calendarEvents);
     }
 
+    public void removeEvent(int id){
+        for(int i = 0; i < this.calendarEvents.size(); i++){
+            CalendarEvent event = calendarEvents.get(i);
+            if(event.getId() == id){
+                this.calendarEvents.remove(i);
+            }
+        }
+    }
 
 }

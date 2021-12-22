@@ -39,10 +39,34 @@ public class CalendarEventsRest {
                 String json = mapper.writeValueAsString(event);
                 joiner.add(json);
             }
-
         }
 
         return joiner.toString();
     }
+    
+    //Supprime l'event de la BDD avec un id specifique
+    
+    @Path("deleteEvent/{id}")
+    @GET
+    public void deleteEvent(@PathParam int id){
+        this.testDatabase.removeEvent(id);
+    }
+    
+    //Met a jour l'event dans la BDD. Il faut lire le Json envoye par react
+    
+    @Path("updateEvent/{eventJson}")
+    @GET
+    public void updateEvent(@PathParam String eventJson){
+    	System.out.println(eventJson);
+    }
+    
+    //Lis l'eventJson et le rajoute dans la BDD
+    
+    @Path("addEvent/{eventJson}")
+    @GET
+    public void addEvent(@PathParam String eventJson){
+    	//TO DO
+    }
+    
 
 }

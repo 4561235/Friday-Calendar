@@ -49,7 +49,8 @@ class EventPopup extends Component{
 
     sendToDelete(event){
         this.props.hidePopup();
-        this.props.eventsManager.deleteEvent(event);
+        var promise = this.props.eventsManager.deleteEvent(event);
+        promise.then(() => {this.props.refreshEvents()});
     }
 
     sentToAdd(){

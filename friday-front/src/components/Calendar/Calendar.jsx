@@ -38,6 +38,7 @@ class Calendar extends Component{
         this.showEventPopup = this.showEventPopup.bind(this);
 
         this.addEvent = this.addEvent.bind(this);
+        this.refreshEvents = this.refreshEvents.bind(this);
     }
 
     componentDidMount(){
@@ -49,17 +50,16 @@ class Calendar extends Component{
         var promise = this.eventsManager.fetchEvents(year, month)
         promise.then( result => {
             //console.log(result)
-            this.setState({events: result})
-            // result.forEach(element => {
-            //     this.setState({events: this.state.events.concat([element])})
-            // });
-        }, function(error) {
-            console.log(error)
+            this.setState({events: result});
+        }).catch(err => {
+            console.log(err);
         });
-        
-        
-        
-        
+    }
+
+    refreshEvents(){
+        // console.log("OK nice")
+        // console.log("Date: " +this.state.year +" " +this.state.month)
+        this.fetchEvents(this.state.year, this.state.month);
     }
 
     daysInMonth(month, year) {
@@ -74,6 +74,7 @@ class Calendar extends Component{
     hideEventPopup(){
         this.setState({isPopup: false});
         this.setState({addingEventMode: false});
+        // this.refreshEvents();
     }
 
     addEvent(){
@@ -191,7 +192,8 @@ class Calendar extends Component{
                                 hidePopup={this.hideEventPopup} 
                                 addingEventMode={this.state.addingEventMode} 
                                 eventsManager={this.eventsManager} 
-                                month={this.state.month} year={this.state.year}> 
+                                month={this.state.month} year={this.state.year}
+                                refreshEvents={this.refreshEvents}> 
                     </EventPopup>
                     : <React.Fragment></React.Fragment>
                 }
