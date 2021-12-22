@@ -10,5 +10,13 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 @Entity
 public class Event extends PanacheEntity {
     public String title;
-    public String description;
+    //public String description;
+
+
+    @Override
+    public String toString() {
+        return "Event{" +
+                "title='" + title + '\'' +
+                '}';
+    }
 }
