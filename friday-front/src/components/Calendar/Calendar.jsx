@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import Day from "./Day.jsx";
 import "./Calendar.css";
 import EventsManager from "../EventsManager.js"
+import DaySummary from '../DaySummary/DaySummary.jsx';
 
 import EventPopup from "./EventPopup.jsx";
 
@@ -162,6 +163,7 @@ class Calendar extends Component{
     render(){
         return (
             <div align="center">
+                {/* <DaySummary></DaySummary> */}
                 <h4 className="calendar-month">{this.monthToString[this.state.month] +" " +this.state.year}</h4>
                 <button className="calendar-btn" onClick={this.subMonth}>{"<-"}</button>
                 <button className="calendar-btn" onClick={this.addMonth}>{"->"}</button>
