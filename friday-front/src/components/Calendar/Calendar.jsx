@@ -13,12 +13,8 @@ class Calendar extends Component{
     constructor(props){
         super(props);
         const date = new Date();
-        // const initMonth = date.getMonth()+1
-        // const initYear = date.getFullYear()
 
         this.state = {
-            //events: this.eventsManager.getEvents(year, month), 
-            //events: this.eventsManager.getEvents(initYear, initMonth),
             events: [],
             month: date.getMonth()+1,
             year: date.getFullYear(),
@@ -47,7 +43,7 @@ class Calendar extends Component{
 
     fetchEvents(year, month){
         // console.log("Date: " +year +" " +month)
-        var promise = this.eventsManager.fetchEvents(year, month)
+        var promise = this.eventsManager.getEvents(year, month)
         promise.then( result => {
             //console.log(result)
             this.setState({events: result});

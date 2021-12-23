@@ -15,7 +15,7 @@ public class PseudoTestDatabase {
                 new CalendarDate(12,12,2021, new CalendarTime(10,30)),
                 EventRecurrenceEnum.NONE,
                 CalendarTypeEnum.FRIDAY,
-                "Repos a Hawai","Paris", "");
+                "Repos a Hawai","Paris", "",false);
 
         CalendarEvent event2 = new CalendarEvent(
                 2,
@@ -23,7 +23,7 @@ public class PseudoTestDatabase {
                 new CalendarDate(19,12,2021, new CalendarTime(10,30)),
                 EventRecurrenceEnum.NONE,
                 CalendarTypeEnum.FRIDAY,
-                "Projet L3","Paris", "Faire projet L3");
+                "Projet L3","Paris", "Faire projet L3",false);
 
         CalendarEvent event3 = new CalendarEvent(
                 3,
@@ -31,28 +31,28 @@ public class PseudoTestDatabase {
                 new CalendarDate(22,12,2021, new CalendarTime(10,30)),
                 EventRecurrenceEnum.NONE,
                 CalendarTypeEnum.FRIDAY,
-                "Truc","Paris", "Faire truc");
+                "Truc","Paris", "Faire truc",false);
         CalendarEvent event4 = new CalendarEvent(
                 4,
                 new CalendarDate(30,12,2021, new CalendarTime(7,30)),
                 new CalendarDate(31,12,2021, new CalendarTime(10,30)),
                 EventRecurrenceEnum.NONE,
                 CalendarTypeEnum.FRIDAY,
-                "Rendre projet","Paris", "Rendre projet Java");
+                "Rendre projet","Paris", "Rendre projet Java",false);
         CalendarEvent event5 = new CalendarEvent(
                 5,
                 new CalendarDate(20,1,2022, new CalendarTime(7,30)),
                 new CalendarDate(25,1,2022, new CalendarTime(10,30)),
                 EventRecurrenceEnum.NONE,
                 CalendarTypeEnum.FRIDAY,
-                "Acheter telephone","Paris", "Acheter tel desc");
+                "Acheter telephone","Paris", "Acheter tel desc",true);
         CalendarEvent event6 = new CalendarEvent(
                 6,
                 new CalendarDate(30,1,2022, new CalendarTime(7,30)),
                 new CalendarDate(31,1,2022, new CalendarTime(10,30)),
                 EventRecurrenceEnum.NONE,
                 CalendarTypeEnum.FRIDAY,
-                "Me reposer","Paris", "Me reposer desc");
+                "Me reposer","Paris", "Me reposer desc", false);
         calendarEvents.add(event);
         calendarEvents.add(event2);
         calendarEvents.add(event3);

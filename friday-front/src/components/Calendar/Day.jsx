@@ -6,6 +6,14 @@ class Day extends Component{
 
     days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
+    needShowFromTime(event){
+        return event.from.day === this.props.day
+    }
+
+    needShowToTime(event){
+        return event.to.day === this.props.day
+    }
+
     render(){
         return(
             <td className="calendar-day">
@@ -14,7 +22,7 @@ class Day extends Component{
                 <br></br>
                 {this.props.events.map(ev => 
                     <React.Fragment key={ev.id}>
-                        <CalendarEvent key={ev.id} event={ev} showPopup={this.props.showPopup}></CalendarEvent>
+                        <CalendarEvent key={ev.id} event={ev} showPopup={this.props.showPopup} showFromTime={this.needShowFromTime(ev)} showToTime={this.needShowToTime(ev)}></CalendarEvent>
                     </React.Fragment>)}
             </td>
         );

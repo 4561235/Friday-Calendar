@@ -12,7 +12,7 @@ public class JacksonTest {
                 new CalendarDate(12,2,2021, new CalendarTime(10,30)),
                 EventRecurrenceEnum.NONE,
                 CalendarTypeEnum.FRIDAY,
-                "Vacances","Paris", "Vacances a la mer");
+                "Vacances","Paris", "Vacances a la mer", false);
 
         ObjectMapper mapper = new ObjectMapper();
         String json = mapper.writeValueAsString(event);
