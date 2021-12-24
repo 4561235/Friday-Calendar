@@ -17,52 +17,76 @@ public class EventResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     /**
-     * Get all of all event.
+     * Get all of all event. String List<Event>
      */
     public String events() throws JsonProcessingException {
+
         ObjectMapper mapper = new ObjectMapper();
-        StringJoiner joiner = new StringJoiner(",","[","]");
+        StringJoiner joiner = new StringJoiner(",","[","]\n");
         for (var e: Event.listAll()) {
             String json = mapper.writeValueAsString(e);
             joiner.add(json);
         }
         return joiner.toString();
+
         //return Event.listAll();
         //List<Event> events = Event.listAll();
         //return events.stream().toList();
     }
 
-    @Path("postEvents/{title}")
+
     @POST
     @Transactional
-    public static Response saveEvent(@PathParam String title) throws JsonProcessingException {
-        var jsonStr = "{ \"title\" : \""+title+"\" }";
-        ObjectMapper mapper = new ObjectMapper();
-        Event event = mapper.readValue(jsonStr, Event.class);
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response saveEvent(Event event) {
         event.persist();
-        System.out.println("Done persist.");
         return Response.status(Response.Status.CREATED).entity(event).build();
     }
 
-    public static void main(String[] args) throws JsonProcessingException {
-        //var jsonStr = "{\"id\":2,\"from\":{\"day\":20,\"month\":11,\"year\":2021,\"time\":{\"hour\":7,\"minute\":30}},\"to\":{\"day\":23,\"month\":11,\"year\":2021,\"time\":{\"hour\":10,\"minute\":30}},\"title\":\"Projet\",\"location\":\"Paris\",\"description\":\"Faire projet java\",\"recurrence\":\"NONE\",\"calendarType\":\"FRIDAY\"}"
+    //  @PathParam String jsonStringEvent
 
-        //var jsonStr = "{\"title\" : \"test_event_1\", \"description\" : \"stp fonctionne\"}";
 
-        var jsonStr = "{ \"title\" : \"test_event\" }";
-        System.out.println(jsonStr);
+    @POST
+    @Path("/newEvent/{jsonStringEvent}")
+    @Consumes(MediaType.TEXT_PLAIN)
+    @Transactional
+    public Response newEvent(@PathParam String jsonStringEvent) throws JsonProcessingException {
+        // Map jsonString to Event.
 
         ObjectMapper mapper = new ObjectMapper();
-        Event event = mapper.readValue(jsonStr, Event.class);
+        //Event event = mapper.readValue(jsonStringEvent, Event.class);
+        Event event = new Event();
 
 
-        //var eRes = new EventResource();
-        System.out.println(event);
-        System.out.println(event.toString());
-
-        //saveEvent(event);
+        // Add event to bdd.
+        event.persist();
 
 
+        //return Response.status(Response.Status.CREATED).entity(event).build();
+
+        return null;
     }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/test/{jsonStringEvent}")
+    public String events(@PathParam String jsonStringEvent) throws JsonProcessingException {
+        ObjectMapper mapper = new ObjectMapper();
+        Event event = mapper.readValue(jsonStringEvent, Event.class);
+        return event.toString();
+    }
+
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Path("/test2/{jsonStringEvent}")
+    @Transactional
+    public String testadd(@PathParam String jsonStringEvent) throws JsonProcessingException {
+        Event event = new Event();
+        event.title = "test 1milliars";
+        event.persist();
+        return event.toString();
+    }
+
 
 }

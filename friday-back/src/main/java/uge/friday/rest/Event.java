@@ -12,11 +12,11 @@ public class Event extends PanacheEntity {
     public String title;
     //public String description;
 
-
     @Override
     public String toString() {
         return "Event{" +
                 "title='" + title + '\'' +
                 '}';
     }
+
 }
