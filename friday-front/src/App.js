@@ -1,7 +1,7 @@
 //import logo from './logo.svg';
 import './App.css';
 import './components/Calendar/Calendar.jsx';
-import Calendar from './components/Calendar/Calendar.jsx';
+import Application from './components/Application/Application.jsx';
 
 function App() {
   return (
@@ -20,7 +20,9 @@ function App() {
           Learn React
         </a>
       </header> */}
-      <Calendar></Calendar>
+      {/* <DaySummary></DaySummary>
+      <Calendar></Calendar> */}
+      <Application></Application>
     </div>
   );
 }

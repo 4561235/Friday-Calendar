@@ -1,0 +1,25 @@
+/* .day-contener{
+    @apply
+    m-3
+    overflow-auto
+    content-center
+    w-1/2
+    h-32
+    ;
+} */
+
+
+.day-event{
+    @apply
+    text-center
+    inline-block
+    overflow-auto
+    w-48
+    h-20
+    border-2
+    border-blue-200
+    m-1
+    rounded-md
+    bg-blue-50
+    ;
+}

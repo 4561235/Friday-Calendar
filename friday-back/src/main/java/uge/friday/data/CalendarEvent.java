@@ -12,8 +12,9 @@ public class CalendarEvent {
     private final String description;
     private final EventRecurrenceEnum recurrence;
     private final CalendarTypeEnum calendarType;
+    private final boolean allDay;
 
-    public CalendarEvent(int id, CalendarDate from, CalendarDate to, EventRecurrenceEnum recurrence, CalendarTypeEnum calendarType, String title, String location, String description){
+    public CalendarEvent(int id, CalendarDate from, CalendarDate to, EventRecurrenceEnum recurrence, CalendarTypeEnum calendarType, String title, String location, String description, boolean allDay){
         Objects.requireNonNull(from);
         Objects.requireNonNull(to);
         Objects.requireNonNull(title);
@@ -28,6 +29,7 @@ public class CalendarEvent {
         this.calendarType = calendarType;
         this.location = location;
         this.description = description;
+        this.allDay = allDay;
     }
 
     public int getId() {
@@ -61,6 +63,8 @@ public class CalendarEvent {
     public String getDescription() {
         return description;
     }
+
+    public boolean isAllDay(){return allDay;}
 
 
     @Override
