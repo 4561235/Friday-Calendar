@@ -17,7 +17,8 @@ class EventPopup extends Component{
             fromTime: this.prependZeroIfNeeded(this.props.event.from.time.hour) +":" +this.prependZeroIfNeeded(this.props.event.from.time.minute),
             toTime: this.prependZeroIfNeeded(this.props.event.to.time.hour) +":" +this.prependZeroIfNeeded(this.props.event.to.time.minute),
 
-            allDay: this.props.event.allDay
+            //Need to {} between boolean value for the browser
+            allDay: "{" +this.props.event.allDay +"}"
         }
         
         this.setModifyMode = this.setModifyMode.bind(this);
@@ -135,11 +136,11 @@ class EventPopup extends Component{
                             : <React.Fragment>
 
                                 <p><b>From Time: </b>
-                                    <input className="text-input" type="time" value={this.state.fromTime} onChange={e => this.setState({fromTime: e.target.value})}/>
+                                    <input className="text-input" type="time" max={this.state.toTime} value={this.state.fromTime} onChange={e => this.setState({fromTime: e.target.value})}/>
                                 </p>
 
                                 <p><b>To Time: </b>
-                                    <input className="text-input" type="time" value={this.state.toTime} onChange={e => this.setState({toTime: e.target.value})}/>
+                                    <input className="text-input" type="time" min={this.state.fromTime} value={this.state.toTime} onChange={e => this.setState({toTime: e.target.value})}/>
                                 </p>
                             </React.Fragment>
                         }

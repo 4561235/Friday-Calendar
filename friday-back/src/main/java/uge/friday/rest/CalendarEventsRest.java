@@ -65,7 +65,7 @@ public class CalendarEventsRest {
     @Path("addEvent/{eventJson}")
     @GET
     public void addEvent(@PathParam String eventJson){
-    	//TO DO
+    	System.out.println(eventJson);
     }
     
 

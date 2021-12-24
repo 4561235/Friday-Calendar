@@ -1,29 +1,23 @@
 import React, {Component} from "react";
 import Day from "./Day.jsx";
 import "./Calendar.css";
-import EventsManager from "../EventsManager.js"
-import DaySummary from '../DaySummary/DaySummary.jsx';
-
 import EventPopup from "./EventPopup.jsx";
 
 class Calendar extends Component{
 
     monthToString = {1:"Janvier", 2:"Fevrier", 3:"Mars", 4:"Avril", 5:"Mai", 6:"Juin", 7:"Juillet", 8:"Aout", 9:"Septembre", 10:"Octobre", 11:"Novembre", 12:"Decembre"}
-    eventsManager = new EventsManager();
 
     constructor(props){
         super(props);
         const date = new Date();
 
         this.state = {
-            events: [],
             month: date.getMonth()+1,
             year: date.getFullYear(),
 
             isPopup: false,
             addingEventMode: false,
             popupEvent: null
-
         }
         
         this.addMonth = this.addMonth.bind(this);
@@ -43,20 +37,12 @@ class Calendar extends Component{
     }
 
     fetchEvents(year, month){
-        // console.log("Date: " +year +" " +month)
-        var promise = this.eventsManager.getEvents(year, month)
-        promise.then( result => {
-            //console.log(result)
-            this.setState({events: result});
-        }).catch(err => {
-            console.log(err);
-        });
+        this.props.fetchEvents(year,month);
     }
 
     refreshEvents(){
-        // console.log("OK nice")
         // console.log("Date: " +this.state.year +" " +this.state.month)
-        this.fetchEvents(this.state.year, this.state.month);
+        this.props.refreshEventsAllApp(this.state.year, this.state.month);
     }
 
     daysInMonth(month, year) {
@@ -71,12 +57,11 @@ class Calendar extends Component{
     hideEventPopup(){
         this.setState({isPopup: false});
         this.setState({addingEventMode: false});
-        // this.refreshEvents();
     }
 
     addEvent(){
         this.setState({addingEventMode: true});
-        this.showEventPopup(this.eventsManager.createBlankEvent(this.state.year, this.state.month));
+        this.showEventPopup(this.props.eventsManager.createBlankEvent(this.state.year, this.state.month));
     }
 
 
@@ -97,7 +82,7 @@ class Calendar extends Component{
             }
             
             let dayEvents = [];
-            this.state.events.forEach(event => {
+            this.props.events.forEach(event => {
                 if( new Date(event.from.year, event.from.month-1, event.from.day) <= new Date(this.state.year, this.state.month-1, tab[index]+1) &&
                     new Date(event.to.year, event.to.month-1, event.to.day) >= new Date(this.state.year, this.state.month-1, tab[index]+1)){
                         dayEvents.push(event);
@@ -120,7 +105,7 @@ class Calendar extends Component{
         //Push remaining row
         retTab.push(<tr key={"Remaining_Row"}>{accTab}</tr>);
         return retTab;
-      }
+    }
 
       addMonth(){
           this.hideEventPopup();
@@ -189,7 +174,7 @@ class Calendar extends Component{
                                 event={this.state.popupEvent}
                                 hidePopup={this.hideEventPopup} 
                                 addingEventMode={this.state.addingEventMode} 
-                                eventsManager={this.eventsManager} 
+                                eventsManager={this.props.eventsManager} 
                                 month={this.state.month} year={this.state.year}
                                 refreshEvents={this.refreshEvents}> 
                     </EventPopup>
