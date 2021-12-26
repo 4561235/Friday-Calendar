@@ -68,5 +68,13 @@ public class CalendarEventsRest {
     	System.out.println(eventJson);
     }
     
+    //Lis le string en format ical et rajoute les events dans la BDD
+    
+    @Path("sendIcal/{icalString}")
+    @GET
+    public void addIcalEvents(@PathParam String icalString){
+    	System.out.println(icalString);
+    }
+    
 
 }
