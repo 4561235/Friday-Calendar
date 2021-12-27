@@ -5,12 +5,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import uge.friday.data.*;
 import java.util.List;
 
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
+import javax.transaction.Transactional;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.Objects;
 import java.util.StringJoiner;
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
+import javax.ws.rs.core.Response;
 
 @Path("/calendar-events")
 public class CalendarEventsRest {
@@ -47,26 +48,38 @@ public class CalendarEventsRest {
     //Supprime l'event de la BDD avec un id specifique
     
     @Path("deleteEvent/{id}")
-    @GET
-    public void deleteEvent(@PathParam int id){
-        this.testDatabase.removeEvent(id);
+    @DELETE
+    @Transactional
+    public Response deleteEvent(@PathParam int id){
+        var event = Event.findById(id);
+        if (event == null) return Response.status(Response.Status.NOT_ACCEPTABLE).entity(id).build();
+        event.delete();
+        return Response.status(Response.Status.ACCEPTED).entity(id).build();
     }
     
     //Met a jour l'event dans la BDD. Il faut lire le Json envoye par react
+    //Todo methode update in Event, the update method must define the fields to modify and set it
     
-    @Path("updateEvent/{eventJson}")
-    @GET
-    public void updateEvent(@PathParam String eventJson){
-    	System.out.println(eventJson);
+    @Path("updateEvent/{id}")
+    @PUT
+    @Transactional
+    public Response updateEvent(@PathParam String id, Event eventJson){
+        Objects.requireNonNull(eventJson);
+        var event = Event.findById(id);
+        if (event == null) return Response.status(Response.Status.NOT_ACCEPTABLE).entity(id).build();
+        event.update(Event eventJson);
+        return Response.status(Response.Status.ACCEPTED).entity(id).build();
     }
     
     //Lis l'eventJson et le rajoute dans la BDD
     
     @Path("addEvent/{eventJson}")
     @GET
-    public void addEvent(@PathParam String eventJson){
-    	System.out.println(eventJson);
+    @Transactional
+    public Response addEvent(Event eventJson){
+        Objects.requireNonNull(eventJson);
+        eventJson.persist();
+        return Response.status(Response.Status.CREATED).entity(eventJson).build();
     }
-    
 
 }

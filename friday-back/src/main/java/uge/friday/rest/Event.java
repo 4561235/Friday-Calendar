@@ -20,6 +20,9 @@ public class Event extends PanacheEntity {
     public CalendarDate start;
     public CalendarDate end;
 
+
+    public static void update(Event event) {/* The update method must define the fields to modify and set it. */};
+
     @Override
     public String toString() {
         return "Event{" +
