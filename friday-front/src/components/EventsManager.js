@@ -35,7 +35,7 @@ export default class EventsManager{
     updateEvent(id, fromYear, fromMonth, fromDay, toYear, toMonth, toDay, fromHour, fromMinute, toHour, toMinute ,title, location, description, recurrence, allDay){
         let event = this.createBlankEvent(fromYear,fromMonth)
 
-        event.id = id
+        // event.id = id
         event.from.year = fromYear;
         event.from.month = fromMonth;
         event.from.day = fromDay;
@@ -55,7 +55,7 @@ export default class EventsManager{
         event.allDay = allDay;
 
 
-        var url = "http://localhost:8080/calendar-events/updateEvent/" + JSON.stringify(event);
+        var url = "http://localhost:8080/calendar-events/updateEvent/" +id +"/" + JSON.stringify(event);
         var promise = this.fetchInBackend(url);
         return promise;
 
@@ -93,8 +93,7 @@ export default class EventsManager{
     }
 
     createBlankEvent(year, month){
-        let event = {"id":0,
-                    "from":{"day":"01","month":month,"year":year,"time":{"hour":0,"minute":0}},
+        let event = {"from":{"day":"01","month":month,"year":year,"time":{"hour":0,"minute":0}},
                     "to":{"day":"01","month":month,"year":year,"time":{"hour":0,"minute":0}},
                     "title":"","location":"","description":"","recurrence":"NONE","calendarType":"FRIDAY", "allDay":"false"};
         return event;

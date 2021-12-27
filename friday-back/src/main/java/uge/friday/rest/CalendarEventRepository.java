@@ -13,4 +13,25 @@ public class CalendarEventRepository implements PanacheRepository<CalendarEvent>
         return list("");
     }
 
+
+
+    public void deleteEvent(long id){
+        delete("id", id);
+    }
+
+
+    public void updateEvent(long id, CalendarEvent event){
+        CalendarEvent ev = this.findById(id);
+        ev.setTitle(event.getTitle());
+        ev.setDescription(event.getDescription());
+        ev.setLocation(event.getLocation());
+        ev.setCalendarType(event.getCalendarType());
+        ev.setRecurrence(event.getRecurrence());
+        ev.setFrom(event.getFrom());
+        ev.setTo(event.getTo());
+        ev.setAllDay(event.isAllDay());
+
+        this.persist(ev);
+    }
+
 }

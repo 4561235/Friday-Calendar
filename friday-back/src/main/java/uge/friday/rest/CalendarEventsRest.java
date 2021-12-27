@@ -19,6 +19,7 @@ public class CalendarEventsRest {
 
     private PseudoTestDatabase testDatabase = new PseudoTestDatabase();
     private CalendarEventRepository repository = new CalendarEventRepository();
+    private ObjectMapper mapper = new ObjectMapper();
 
     @Path("getEvents/{year}/{month}")
     @GET
@@ -32,24 +33,6 @@ public class CalendarEventsRest {
     public String getEvents(@PathParam int year, @PathParam int month) throws JsonProcessingException {
 
         StringJoiner joiner = new StringJoiner(",","[","]");
-        ObjectMapper mapper = new ObjectMapper();
-
-//        CalendarEvent ev1 = new CalendarEvent(
-//                new CalendarDate(22,12,2021, new CalendarTime(7,30)),
-//                new CalendarDate(23,12,2021, new CalendarTime(10,30)),
-//                EventRecurrenceEnum.NONE,
-//                CalendarTypeEnum.FRIDAY,
-//                "Poire","Paris", "Je test desc", false);
-//
-//        CalendarEvent ev2 = new CalendarEvent(
-//                new CalendarDate(25,12,2021, new CalendarTime(7,30)),
-//                new CalendarDate(28,12,2021, new CalendarTime(10,45)),
-//                EventRecurrenceEnum.NONE,
-//                CalendarTypeEnum.FRIDAY,
-//                "Lichi","Paris", "Je test desc", false);
-
-//        repository.persist(ev1);
-//        repository.persist(ev2);
 
         List<CalendarEvent> eventsList = repository.getEvents();
         System.out.println(eventsList.size());
@@ -68,27 +51,21 @@ public class CalendarEventsRest {
     //Supprime l'event de la BDD avec un id specifique
     
     @Path("deleteEvent/{id}")
-    @DELETE
+    @GET
     @Transactional
-    public Response deleteEvent(@PathParam int id){
-        var event = CalendarEvent.findById(id);
-        if (event == null) return Response.status(Response.Status.NOT_ACCEPTABLE).entity(id).build();
-        event.delete();
-        return Response.status(Response.Status.ACCEPTED).entity(id).build();
+    public void deleteEvent(@PathParam long id){
+        repository.deleteEvent(id);
     }
     
     //Met a jour l'event dans la BDD. Il faut lire le Json envoye par react
     //Todo methode update in Event, the update method must define the fields to modify and set it
     
-    @Path("updateEvent/{id}")
-    @PUT
+    @Path("updateEvent/{id}/{eventJson}")
+    @GET
     @Transactional
-    public Response updateEvent(@PathParam String id, CalendarEvent eventJson){
-        Objects.requireNonNull(eventJson);
-        var event = CalendarEvent.findById(id);
-        if (event == null) return Response.status(Response.Status.NOT_ACCEPTABLE).entity(id).build();
-        //event.update(CalendarEvent eventJson);
-        return Response.status(Response.Status.ACCEPTED).entity(id).build();
+    public void updateEvent(@PathParam long id, @PathParam String eventJson) throws JsonProcessingException {
+        CalendarEvent event = mapper.readValue(eventJson, CalendarEvent.class);
+        repository.updateEvent(id, event);
     }
     
     //Lis l'eventJson et le rajoute dans la BDD
@@ -96,8 +73,9 @@ public class CalendarEventsRest {
     @Path("addEvent/{eventJson}")
     @GET
     @Transactional
-    public void addEvent(@PathParam String eventJson){
-
+    public void addEvent(@PathParam String eventJson) throws JsonProcessingException {
+        CalendarEvent event = mapper.readValue(eventJson, CalendarEvent.class);
+        repository.persist(event);
     }
 
     //Lis le string en format ical et rajoute les events dans la BDD

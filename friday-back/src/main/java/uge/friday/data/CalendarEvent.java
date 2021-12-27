@@ -84,12 +84,44 @@ public class CalendarEvent extends PanacheEntity {
 
     public boolean isAllDay(){return allDay;}
 
+    public void setFrom(CalendarDate from) {
+        this.from = from;
+    }
+
+    public void setTo(CalendarDate to) {
+        this.to = to;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public void setRecurrence(EventRecurrenceEnum recurrence) {
+        this.recurrence = recurrence;
+    }
+
+    public void setCalendarType(CalendarTypeEnum calendarType) {
+        this.calendarType = calendarType;
+    }
+
+    public void setAllDay(boolean allDay) {
+        this.allDay = allDay;
+    }
 
     @Override
     public String toString() {
         return "CalendarEvent{" +
                 "from=" + from +
                 ", to=" + to +
+                ", title=" +title +
                 ", location='" + location + '\'' +
                 ", description='" + description + '\'' +
                 ", recurrence=" + recurrence +
