@@ -2,6 +2,7 @@ package uge.friday.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import io.smallrye.config.SysPropConfigSource;
 import uge.friday.data.*;
 import java.util.List;
 
@@ -17,10 +18,12 @@ import javax.ws.rs.core.Response;
 public class CalendarEventsRest {
 
     private PseudoTestDatabase testDatabase = new PseudoTestDatabase();
+    private CalendarEventRepository repository = new CalendarEventRepository();
 
     @Path("getEvents/{year}/{month}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
+    @Transactional
 
     //Imaginons que l'utilisateur veut voir les events de de decembre 2021 alors react va appeler cette
     //methode en donnant l'annee et le mois en parametre. Cette methode va devoir interoger la base de donnees
@@ -28,14 +31,31 @@ public class CalendarEventsRest {
 
     public String getEvents(@PathParam int year, @PathParam int month) throws JsonProcessingException {
 
-        List<CalendarEvent> eventList = this.testDatabase.getEvents();
-
         StringJoiner joiner = new StringJoiner(",","[","]");
         ObjectMapper mapper = new ObjectMapper();
-        //String json = mapper.writeValueAsString(event);
 
-        for(int i = 0; i < eventList.size(); i++){
-            CalendarEvent event = eventList.get(i);
+//        CalendarEvent ev1 = new CalendarEvent(
+//                new CalendarDate(22,12,2021, new CalendarTime(7,30)),
+//                new CalendarDate(23,12,2021, new CalendarTime(10,30)),
+//                EventRecurrenceEnum.NONE,
+//                CalendarTypeEnum.FRIDAY,
+//                "Poire","Paris", "Je test desc", false);
+//
+//        CalendarEvent ev2 = new CalendarEvent(
+//                new CalendarDate(25,12,2021, new CalendarTime(7,30)),
+//                new CalendarDate(28,12,2021, new CalendarTime(10,45)),
+//                EventRecurrenceEnum.NONE,
+//                CalendarTypeEnum.FRIDAY,
+//                "Lichi","Paris", "Je test desc", false);
+
+//        repository.persist(ev1);
+//        repository.persist(ev2);
+
+        List<CalendarEvent> eventsList = repository.getEvents();
+        System.out.println(eventsList.size());
+
+        for(int i = 0; i < eventsList.size(); i++){
+            CalendarEvent event = eventsList.get(i);
             if(event.getFrom().getMonth() == month && event.getFrom().getYear() == year){
                 String json = mapper.writeValueAsString(event);
                 joiner.add(json);
@@ -76,10 +96,8 @@ public class CalendarEventsRest {
     @Path("addEvent/{eventJson}")
     @GET
     @Transactional
-    public Response addEvent(CalendarEvent eventJson){
-        Objects.requireNonNull(eventJson);
-        eventJson.persist();
-        return Response.status(Response.Status.CREATED).entity(eventJson).build();
+    public void addEvent(@PathParam String eventJson){
+
     }
 
     //Lis le string en format ical et rajoute les events dans la BDD

@@ -1,13 +1,29 @@
 package uge.friday.data;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
 import java.util.Objects;
 
-public class CalendarDate {
+@Entity
+public class CalendarDate extends PanacheEntity {
 
-    private final int day;
-    private final int month;
-    private final int year;
-    private final CalendarTime time;
+    private int day;
+    private int month;
+    private int year;
+
+    @ManyToOne(cascade = {CascadeType.ALL})
+    private CalendarTime time;
+
+    public CalendarDate(){
+        this.day = 1;
+        this.month = 1;
+        this.year = 2021;
+        this.time = null;
+    }
 
     public CalendarDate(int day, int month, int year, CalendarTime time){
         //TODO check number of days in the month
