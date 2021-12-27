@@ -24,9 +24,10 @@ class DaySummary extends Component{
         let retTab = [];
         let dayEventTab = [];
 
+
         for (let index = 0; index < this.props.events.length; index++){
             let ev = this.props.events[index];
-            if(ev.from.day <= date.getDate()-1 && ev.to.day >= date.getDate()-1 ){
+            if(ev.from.day <= date.getDate() && ev.to.day >= date.getDate() ){
                 dayEventTab.push(ev);
             }
         }
@@ -44,6 +45,8 @@ class DaySummary extends Component{
                         {ev.from.time.hour +":" +this.prependZeroIfNeeded(ev.from.time.minute) +" - " +ev.to.time.hour +":"+this.prependZeroIfNeeded(ev.to.time.minute)}
                     </li>);
         }
+
+        if(retTab.length === 0) retTab.push(<b key={"no_event"} >Pas d'evenements aujourd'hui</b>)
         
         return retTab;
     }
@@ -58,6 +61,7 @@ class DaySummary extends Component{
                         {this.renderEventsList()}
                     </React.Fragment>
                 </ul>
+                <br></br>
             </div>
         );
     }

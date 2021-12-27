@@ -81,5 +81,17 @@ public class CalendarEventsRest {
         eventJson.persist();
         return Response.status(Response.Status.CREATED).entity(eventJson).build();
     }
+<<<<<<< HEAD
+=======
+    
+    //Lis le string en format ical et rajoute les events dans la BDD
+    
+    @Path("sendIcal/{icalString}")
+    @GET
+    public void addIcalEvents(@PathParam String icalString){
+    	System.out.println(icalString);
+    }
+    
+>>>>>>> 57aec66545640726af32b7af663f3ad372f1a061
 
 }

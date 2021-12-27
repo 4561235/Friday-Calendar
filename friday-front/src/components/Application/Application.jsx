@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import EventsManager from "../EventsManager.js"
 import Calendar from '../Calendar/Calendar.jsx';
 import DaySummary from '../DaySummary/DaySummary.jsx';
+import FileUploader from '../FileUploader/FileUploader.jsx';
 
 class Application extends Component{
 
@@ -53,8 +54,18 @@ class Application extends Component{
     render() {
         return(
         <React.Fragment>
-            <DaySummary fetchEvents={this.fetchDaySummaryEvents} events={this.state.daySummaryEvents}></DaySummary>
-            <Calendar fetchEvents={this.fetchCalendarEvents} events={this.state.calendarEvents} refreshEventsAllApp={this.refreshEventsAllApp} eventsManager={this.eventsManager}></Calendar>
+            <DaySummary fetchEvents={this.fetchDaySummaryEvents} 
+                        events={this.state.daySummaryEvents}>
+            </DaySummary>
+
+            <Calendar fetchEvents={this.fetchCalendarEvents} 
+                    events={this.state.calendarEvents} 
+                    refreshEventsAllApp={this.refreshEventsAllApp} 
+                    eventsManager={this.eventsManager}>
+            </Calendar>
+
+            <FileUploader></FileUploader>
+
         </React.Fragment>
         );
     }

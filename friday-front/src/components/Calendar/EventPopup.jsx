@@ -18,7 +18,7 @@ class EventPopup extends Component{
             toTime: this.prependZeroIfNeeded(this.props.event.to.time.hour) +":" +this.prependZeroIfNeeded(this.props.event.to.time.minute),
 
             //Need to {} between boolean value for the browser
-            allDay: "{" +this.props.event.allDay +"}"
+            allDay: !!this.props.event.allDay
         }
         
         this.setModifyMode = this.setModifyMode.bind(this);
