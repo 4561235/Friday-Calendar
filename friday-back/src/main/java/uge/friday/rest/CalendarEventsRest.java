@@ -51,7 +51,7 @@ public class CalendarEventsRest {
     @DELETE
     @Transactional
     public Response deleteEvent(@PathParam int id){
-        var event = Event.findById(id);
+        var event = CalendarEvent.findById(id);
         if (event == null) return Response.status(Response.Status.NOT_ACCEPTABLE).entity(id).build();
         event.delete();
         return Response.status(Response.Status.ACCEPTED).entity(id).build();
@@ -63,11 +63,11 @@ public class CalendarEventsRest {
     @Path("updateEvent/{id}")
     @PUT
     @Transactional
-    public Response updateEvent(@PathParam String id, Event eventJson){
+    public Response updateEvent(@PathParam String id, CalendarEvent eventJson){
         Objects.requireNonNull(eventJson);
-        var event = Event.findById(id);
+        var event = CalendarEvent.findById(id);
         if (event == null) return Response.status(Response.Status.NOT_ACCEPTABLE).entity(id).build();
-        event.update(Event eventJson);
+        //event.update(CalendarEvent eventJson);
         return Response.status(Response.Status.ACCEPTED).entity(id).build();
     }
     
@@ -76,14 +76,12 @@ public class CalendarEventsRest {
     @Path("addEvent/{eventJson}")
     @GET
     @Transactional
-    public Response addEvent(Event eventJson){
+    public Response addEvent(CalendarEvent eventJson){
         Objects.requireNonNull(eventJson);
         eventJson.persist();
         return Response.status(Response.Status.CREATED).entity(eventJson).build();
     }
-<<<<<<< HEAD
-=======
-    
+
     //Lis le string en format ical et rajoute les events dans la BDD
     
     @Path("sendIcal/{icalString}")
@@ -91,7 +89,6 @@ public class CalendarEventsRest {
     public void addIcalEvents(@PathParam String icalString){
     	System.out.println(icalString);
     }
-    
->>>>>>> 57aec66545640726af32b7af663f3ad372f1a061
+
 
 }

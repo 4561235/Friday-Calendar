@@ -1,8 +1,10 @@
 package uge.friday.data;
 
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+
 import java.util.Objects;
 
-public class CalendarEvent {
+public class CalendarEvent extends PanacheEntity {
 
     private final int id;
     private final CalendarDate from;
