@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import Day from "./Day.jsx";
 import "./Calendar.css";
 import EventPopup from "./EventPopup.jsx";
+import FileUploader from '../FileUploader/FileUploader.jsx';
 
 class Calendar extends Component{
 
@@ -180,6 +181,8 @@ class Calendar extends Component{
                     </EventPopup>
                     : <React.Fragment></React.Fragment>
                 }
+
+                <FileUploader refreshEvents={this.refreshEvents}></FileUploader>
             </div>
         );
     }
