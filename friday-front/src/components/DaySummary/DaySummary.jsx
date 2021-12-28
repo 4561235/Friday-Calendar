@@ -39,10 +39,14 @@ class DaySummary extends Component{
 
         for (let index = 0; index < dayEventTab.length; index++){
             let ev = dayEventTab[index];
+            let time = null;
+            if(ev.allDay) time = "All day";
+            else time = ev.from.time.hour +":" +this.prependZeroIfNeeded(ev.from.time.minute) +" - " +ev.to.time.hour +":"+this.prependZeroIfNeeded(ev.to.time.minute);
+
             retTab.push(<li key={index} className="day-event">
                         <b>{ev.title}</b> <br></br>
                         {ev.location} <br></br>
-                        {ev.from.time.hour +":" +this.prependZeroIfNeeded(ev.from.time.minute) +" - " +ev.to.time.hour +":"+this.prependZeroIfNeeded(ev.to.time.minute)}
+                        {time}
                     </li>);
         }
 

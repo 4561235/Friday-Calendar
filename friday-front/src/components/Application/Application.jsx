@@ -45,8 +45,9 @@ class Application extends Component{
     }
 
     refreshEventsAllApp(year, month){
+        const date = new Date();
         this.fetchCalendarEvents(year, month);
-        this.fetchDaySummaryEvents(year, month);
+        this.fetchDaySummaryEvents(date.getFullYear(), date.getMonth()+1);
     }
 
 

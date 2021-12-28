@@ -1,0 +1,6 @@
+#FileLock
+#Tue Dec 28 13:41:38 CET 2021
+server=127.0.1.1\:42207
+hostName=pop-os.localdomain
+method=file
+id=17e010f7a22c360d9832268d0d7e29e276f0886a412
