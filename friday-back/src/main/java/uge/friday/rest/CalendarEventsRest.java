@@ -82,8 +82,15 @@ public class CalendarEventsRest {
     
     @Path("sendIcal/{icalString}")
     @GET
+    @Transactional
     public void addIcalEvents(@PathParam String icalString){
-    	System.out.println(icalString);
+
+        System.out.println(icalString);
+        IcalReader reader = new IcalReader();
+        List<CalendarEvent> list = reader.readIcal(icalString);
+        for(CalendarEvent event : list){
+            repository.persist(event);
+        }
     }
 
 

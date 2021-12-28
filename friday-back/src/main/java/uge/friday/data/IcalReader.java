@@ -6,54 +6,49 @@ import biweekly.component.VEvent;
 import biweekly.property.DateEnd;
 import biweekly.property.DateStart;
 import biweekly.property.Location;
+import biweekly.property.RecurrenceRule;
+import biweekly.util.Recurrence;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class IcalReader {
 
-    public static void main(String[] args) {
-        String str =
-                "BEGIN:VCALENDAR\r\n" +
-                        "VERSION:2.0\r\n" +
-                        "PRODID:-//Microsoft Corporation//Outlook 14.0 MIMEDIR//EN\r\n" +
-                        "BEGIN:VEVENT\r\n" +
-                        "UID:0123\r\n" +
-                        "DTSTAMP:20130601T080000Z\r\n" +
-                        "SUMMARY;LANGUAGE=en-us:Team Meeting\r\n" +
-                        "DTSTART:20130610T120000Z\r\n" +
-                        "DURATION:PT1H\r\n" +
-                        "RRULE:FREQ=WEEKLY;INTERVAL=2\r\n" +
-                        "END:VEVENT\r\n" +
-                        "END:VCALENDAR\r\n";
+
+    public IcalReader(){
+
+    }
+
+    public List<CalendarEvent> readIcal(String icalString){
+        ArrayList<CalendarEvent> list = new ArrayList<>();
+
+        ICalendar ical = Biweekly.parse(icalString).first();
+        List<VEvent> eventsList = ical.getEvents();
+        for(VEvent vevent: eventsList) {
+            DateStart start = vevent.getDateStart();
+            DateEnd end = vevent.getDateEnd();
+            String description = vevent.getDescription().getValue();
+            //Recurrence rule = vevent.getRecurrenceRule().getValue();
+            String summary = vevent.getSummary().getValue();
+            String location = vevent.getLocation().getValue();
 
 
-
-        ICalendar ical = Biweekly.parse(str).first();
-
-        VEvent event = ical.getEvents().get(0);
-
-        DateStart start = event.getDateStart();
-        DateEnd end = event.getDateEnd();
-
-//        System.out.println(event.getDescription().getValue());
-//        System.out.println(event.getSummary().getValue());
-//        Location location = event.getLocation();
+            Calendar calFrom = Calendar.getInstance();
+            calFrom.setTime(start.getValue());
+            Calendar calTo = Calendar.getInstance();
+            calTo.setTime(end.getValue());
 
 
-//        System.out.println(location.getValue());
-//        System.out.println(start.getValue());
-//        System.out.println(end.getValue());
-//        if(end == null){
-//            System.out.println("End is null");
-//        }
+            CalendarEvent calEvent = new CalendarEvent(
+                new CalendarDate(calFrom.get(Calendar.DAY_OF_MONTH),calFrom.get(Calendar.MONTH)+1,calFrom.get(Calendar.YEAR), new CalendarTime(calFrom.get(Calendar.HOUR),calFrom.get(Calendar.MINUTE))),
+                new CalendarDate(calTo.get(Calendar.DAY_OF_MONTH),calTo.get(Calendar.MONTH)+1,calTo.get(Calendar.YEAR), new CalendarTime(calTo.get(Calendar.HOUR),calTo.get(Calendar.MINUTE))),
+                EventRecurrenceEnum.NONE,
+                CalendarTypeEnum.ICAL,
+                    summary,location, description, false);
 
-        Calendar cal = Calendar.getInstance();
-        cal.setTime(start.getValue());
-        cal.setTime(start.getValue());
-        int year = cal.get(Calendar.YEAR);
-        int month = cal.get(Calendar.MONTH);
-        int day = cal.get(Calendar.DAY_OF_MONTH);
-        System.out.println(day +" " +month +" " +year);
-
+            list.add(calEvent);
+        }
+        return list;
     }
 }
