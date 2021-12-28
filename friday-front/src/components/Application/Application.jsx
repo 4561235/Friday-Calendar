@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import EventsManager from "../EventsManager.js"
 import Calendar from '../Calendar/Calendar.jsx';
 import DaySummary from '../DaySummary/DaySummary.jsx';
+import SubwayStatus from '../SubwayStatus/SubwayStatus.jsx';
 
 
 class Application extends Component{
@@ -54,6 +55,8 @@ class Application extends Component{
     render() {
         return(
         <React.Fragment>
+            <SubwayStatus></SubwayStatus>
+            
             <DaySummary fetchEvents={this.fetchDaySummaryEvents} 
                         events={this.state.daySummaryEvents}>
             </DaySummary>

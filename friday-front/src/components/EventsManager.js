@@ -65,7 +65,8 @@ export default class EventsManager{
         var url = "http://localhost:8080/calendar-events/getEvents/" + year + "/" +month;
 
         var promise = this.fetchInBackend(url)
-            .then(response => response.json()).then( (user) => {
+            .then(response => response.json())
+            .then( (user) => {
                 var jsonStr = JSON.stringify(user);
                 var temp = JSON.parse(jsonStr);
                 return temp;

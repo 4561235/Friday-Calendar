@@ -1,0 +1,14 @@
+.subway-line{
+    @apply
+    text-center
+    inline-block
+    overflow-auto
+    w-48
+    h-auto
+    border-2
+    border-blue-200
+    m-1
+    rounded-md
+    bg-blue-50
+    ;
+}
