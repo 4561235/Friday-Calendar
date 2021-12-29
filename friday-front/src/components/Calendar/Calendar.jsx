@@ -3,6 +3,7 @@ import Day from "./Day.jsx";
 import "./Calendar.css";
 import EventPopup from "./EventPopup.jsx";
 import FileUploader from '../FileUploader/FileUploader.jsx';
+import GoogleIntegration from '../GoogleIntegration/GoogleIntegration.jsx';
 
 class Calendar extends Component{
 
@@ -182,6 +183,7 @@ class Calendar extends Component{
                     : <React.Fragment></React.Fragment>
                 }
 
+                <GoogleIntegration refreshEvents={this.refreshEvents}></GoogleIntegration>
                 <FileUploader refreshEvents={this.refreshEvents}></FileUploader>
             </div>
         );

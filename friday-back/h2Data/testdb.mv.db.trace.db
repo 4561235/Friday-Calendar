@@ -1,3 +1,7 @@
 2021-12-24 09:24:36 jdbc[3]: exception
 org.h2.jdbc.JdbcSQLSyntaxErrorException: Table "EVENT" not found; SQL statement:
 select event0_.id as id1_0_, event0_.title as title2_0_ from Event event0_ [42102-200]
+2021-12-29 17:14:06 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "DESCRIPTION VARCHAR(255)": "STRINGDECODE('Informations pratiques :\n* Au Rez-de-chauss\u00e9e\n* Sans ascenseur\n* Avec acc\u00e8s handicap\u00e9\n\nAutres ... (443)"
+Value too long for column "DESCRIPTION VARCHAR(255)": "STRINGDECODE('Informations pratiques :\n* Au Rez-de-chauss\u00e9e\n* Sans ascenseur\n* Avec acc\u00e8s handicap\u00e9\n\nAutres ... (443)"; SQL statement:
+insert into CalendarEvent (allDay, calendarType, description, from_id, location, recurrence, title, to_id, id) values (?, ?, ?, ?, ?, ?, ?, ?, ?) [22001-200]

@@ -4,6 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.smallrye.config.SysPropConfigSource;
 import uge.friday.data.*;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -90,6 +93,16 @@ public class CalendarEventsRest {
         List<CalendarEvent> list = reader.readIcal(icalString);
         for(CalendarEvent event : list){
             repository.persist(event);
+        }
+    }
+
+    @Path("connectToGoogleCalendar/")
+    @GET
+    @Transactional
+    public void connectToGoogleCalendar() throws GeneralSecurityException, IOException {
+        GoogleCalendarIntegration googleCal = new GoogleCalendarIntegration();
+        for(CalendarEvent calEvent : googleCal.getCalendarEvents()){
+            this.repository.persist(calEvent);
         }
     }
 

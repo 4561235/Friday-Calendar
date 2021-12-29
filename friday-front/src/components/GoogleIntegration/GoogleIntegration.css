@@ -1,0 +1,29 @@
+.btn{
+    @apply 
+    /* flex-none  */
+    items-center 
+    justify-center 
+    w-auto
+    h-9 
+    rounded-md 
+    text-gray-800 
+    border-2 
+    border-gray-300
+    m-2
+    ;
+}
+
+.btn:hover{
+    @apply 
+    /* flex-none  */
+    items-center 
+    justify-center 
+    w-auto
+    h-9 
+    rounded-md 
+    text-gray-800 
+    border-2
+    border-blue-400
+    m-2
+    ;
+}
