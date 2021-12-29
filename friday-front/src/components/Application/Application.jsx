@@ -2,7 +2,8 @@ import React, {Component} from "react";
 import EventsManager from "../EventsManager.js"
 import Calendar from '../Calendar/Calendar.jsx';
 import DaySummary from '../DaySummary/DaySummary.jsx';
-import FileUploader from '../FileUploader/FileUploader.jsx';
+import SubwayStatus from '../SubwayStatus/SubwayStatus.jsx';
+
 
 class Application extends Component{
 
@@ -18,7 +19,6 @@ class Application extends Component{
         this.fetchCalendarEvents = this.fetchCalendarEvents.bind(this);
         this.fetchDaySummaryEvents = this.fetchDaySummaryEvents.bind(this);
         this.refreshEventsAllApp = this.refreshEventsAllApp.bind(this);
-        // this.createBlankEvent = this.eventsManager.createBlankEvent.bind(this);
     }
 
 
@@ -55,6 +55,8 @@ class Application extends Component{
     render() {
         return(
         <React.Fragment>
+            <SubwayStatus></SubwayStatus>
+            
             <DaySummary fetchEvents={this.fetchDaySummaryEvents} 
                         events={this.state.daySummaryEvents}>
             </DaySummary>
@@ -65,7 +67,7 @@ class Application extends Component{
                     eventsManager={this.eventsManager}>
             </Calendar>
 
-            <FileUploader></FileUploader>
+            
 
         </React.Fragment>
         );

@@ -9,6 +9,8 @@ import java.sql.Time;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -165,8 +167,25 @@ public class CalendarEventsRest {
     
     @Path("sendIcal/{icalString}")
     @GET
+    @Transactional
     public void addIcalEvents(@PathParam String icalString){
-    	System.out.println(icalString);
+
+        System.out.println(icalString);
+        IcalReader reader = new IcalReader();
+        List<CalendarEvent> list = reader.readIcal(icalString);
+        for(CalendarEvent event : list){
+            repository.persist(event);
+        }
+    }
+
+    @Path("connectToGoogleCalendar/")
+    @GET
+    @Transactional
+    public void connectToGoogleCalendar() throws GeneralSecurityException, IOException {
+        GoogleCalendarIntegration googleCal = new GoogleCalendarIntegration();
+        for(CalendarEvent calEvent : googleCal.getCalendarEvents()){
+            this.repository.persist(calEvent);
+        }
     }
 
 
