@@ -4,8 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import uge.friday.data.*;
 
-import java.time.YearMonth;
-import java.util.ArrayList;
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.List;
@@ -13,7 +11,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
