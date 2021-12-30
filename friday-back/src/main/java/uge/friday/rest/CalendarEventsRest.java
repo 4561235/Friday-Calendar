@@ -40,36 +40,9 @@ public class CalendarEventsRest {
 
     public String getEvents(@PathParam int year, @PathParam int month) throws JsonProcessingException {
         List<CalendarEvent> eventsList = repository.getEvents();
-        var eventRecGen = new EventRecurrenceGenerator();
+        var eventRecGen = new EventRecurrenceGenerator(eventsList);
 
-        // Find all events for this combination year month without recurrence.
-        var eventsWithoutRecurrence = eventsList.stream()
-                .filter(e -> e.getFrom().getMonth() == month && e.getFrom().getYear() == year && e.getRecurrence() == EventRecurrenceEnum.NONE)
-                .collect(Collectors.toList());
-
-        // Find recurrent events.
-        var eventsRecurrent = eventsList.stream()
-                // Events start before/during the combination year month.
-                .filter(e -> (e.getFrom().getYear() <= year && e.getFrom().getMonth() <= month) || e.getFrom().getYear() < year)
-                .filter(e -> e.getRecurrence() != EventRecurrenceEnum.NONE)
-                .collect(Collectors.toList());
-
-        // Calculates new events by recurrence.
-        var newEvents = eventsRecurrent.stream()
-                .map(e -> eventRecGen.recurrenceToEvents(e, year, month))
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
-
-        // Convert all events for display.
-        var events = Stream.concat(eventsWithoutRecurrence.stream(), newEvents.stream())
-                .map(e -> {
-                    try {
-                        return mapper.writeValueAsString(e);
-                    } catch (JsonProcessingException ex) { /* Do nothing. */ }
-                    return null;
-                })
-                .collect(Collectors.joining(",", "[", "]"));
-        return events;
+        return eventRecGen.generateRecurrentEvents(year, month);
     }
 
     //Delete a calendar event for database using it's id
