@@ -75,7 +75,13 @@ public class EventRecurrenceGenerator {
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
     }
-
+	
+	/**
+     * @param event with recurrence
+     * @param yearToDisplay years of events to display
+     * @param monthToDisplay month of events to display
+     * @return Generate events in relation to an event that has a recurrence
+     */
     private List<CalendarEvent> recurrenceToEvents(CalendarEvent event, int yearToDisplay, int monthToDisplay) {
         Objects.requireNonNull(event);
         var events = new ArrayList<CalendarEvent>();

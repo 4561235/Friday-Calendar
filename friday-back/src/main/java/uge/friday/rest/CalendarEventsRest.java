@@ -30,9 +30,11 @@ public class CalendarEventsRest {
     private final CalendarEventRepository repository = new CalendarEventRepository();
     private final ObjectMapper mapper = new ObjectMapper();
 
-    //React will call this method to get events from a month in a year this method need to
-    //return a json array of events
-
+    /**
+     * @param year years of events to display
+     * @param month month of events to display
+     * @return Formatted json event to display
+     */
     @Path("getEvents/{year}/{month}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -45,18 +47,22 @@ public class CalendarEventsRest {
         return eventRecGen.generateRecurrentEvents(year, month);
     }
 
-    //Delete a calendar event for database using it's id
-    
+    /**
+     * Delete a calendar event for database
+     * @param id of an event
+     */
     @Path("deleteEvent/{id}")
     @DELETE
     @Transactional
     public void deleteEvent(@PathParam long id){
         repository.deleteEvent(id);
     }
-    
-    //Met a jour l'event dans la BDD. Il faut lire le Json envoye par react
-    //Todo methode update in Event, the update method must define the fields to modify and set it
-    
+
+    /**
+     * @param id of an event
+     * @param eventJson formatted event to update
+     * @throws JsonProcessingException
+     */
     @Path("updateEvent/{id}/{eventJson}")
     @PUT
     @Transactional
@@ -64,9 +70,12 @@ public class CalendarEventsRest {
         CalendarEvent event = mapper.readValue(eventJson, CalendarEvent.class);
         repository.updateEvent(id, event);
     }
-    
-    //Convert the event in json format to CalendarEvent class and add it to database
-    
+
+    /**
+     * Convert the event in json format to CalendarEvent class and add it to database
+     * @param eventJson formatted event to add
+     * @throws JsonProcessingException
+     */
     @Path("addEvent/{eventJson}")
     @PUT
     @Transactional
@@ -75,8 +84,10 @@ public class CalendarEventsRest {
         repository.persist(event);
     }
 
-    //Read the ical format string, converts IcalEvents to CalendarEvents and add it to database
-    
+    /**
+     * Converts IcalEvents to CalendarEvents and add it to database
+     * @param icalString formatted event to add
+     */
     @Path("sendIcal/{icalString}")
     @PUT
     @Transactional
@@ -88,8 +99,11 @@ public class CalendarEventsRest {
         }
     }
 
-    //Get events from google calendar, converts GoogleCalendarEvents to CalendarEvents and add it to database
-
+    /**
+     * Get events from google calendar, converts GoogleCalendarEvents to CalendarEvents and add it to database
+     * @throws GeneralSecurityException
+     * @throws IOException
+     */
     @Path("connectToGoogleCalendar/")
     @GET
     @Transactional
@@ -99,6 +113,5 @@ public class CalendarEventsRest {
             this.repository.persist(calEvent);
         }
     }
-
 
 }
