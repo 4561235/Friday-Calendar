@@ -4,13 +4,12 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import uge.friday.data.*;
 
-<<<<<<< HEAD
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.YearMonth;
 import java.util.ArrayList;
-=======
->>>>>>> main
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Date;
@@ -19,6 +18,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -37,36 +37,7 @@ public class CalendarEventsRest {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
-<<<<<<< HEAD
-    public String getEvents(@PathParam int year, @PathParam int month) throws JsonProcessingException, ParseException {
 
-        StringJoiner joiner = new StringJoiner(",","[","]");
-
-        List<CalendarEvent> eventsList = repository.getEvents();
-        //System.out.println(eventsList.size());
-
-
-        for(int i = 0; i < eventsList.size(); i++){
-            CalendarEvent event = eventsList.get(i);
-            SimpleDateFormat dateFormat = new SimpleDateFormat("y-M-d");
-            Date from = dateFormat.parse(event.getFrom().getYear() + "-" +event.getFrom().getMonth() + "-1");
-            Date to = dateFormat.parse(event.getTo().getYear() +"-" +event.getTo().getMonth() + "-1");
-            Date current = dateFormat.parse(year +"-" + month + "-1");
-
-//            if( (event.getFrom().getMonth() <= month && event.getTo().getMonth() >= month) || (event.getFrom().getYear() <= year && event.getTo().getYear() >= year)){
-            if(from.compareTo(current) <= 0 && to.compareTo(current) >= 0){
-                String json = mapper.writeValueAsString(event);
-                joiner.add(json);
-            }
-        }
-        return joiner.toString();
-
-
-        /*
-        String collect = eventsList.stream()
-                .filter(e -> e.getFrom().getMonth() == month && e.getFrom().getYear() == year)
-                .map(ObjectMapper::writeValueAsString)
-=======
     public String getEvents(@PathParam int year, @PathParam int month) throws JsonProcessingException {
         List<CalendarEvent> eventsList = repository.getEvents();
         var eventRecGen = new EventRecurrenceGenerator();
@@ -97,7 +68,6 @@ public class CalendarEventsRest {
                     } catch (JsonProcessingException ex) { /* Do nothing. */ }
                     return null;
                 })
->>>>>>> main
                 .collect(Collectors.joining(",", "[", "]"));
         return events;
     }

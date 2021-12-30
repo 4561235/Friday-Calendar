@@ -38,6 +38,7 @@ public class CalendarEvent extends PanacheEntity {
         Objects.requireNonNull(title);
         Objects.requireNonNull(description);
         Objects.requireNonNull(location);
+        Objects.requireNonNull(recurrence);
 
         this.title = title;
         this.from = from;

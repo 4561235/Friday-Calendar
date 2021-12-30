@@ -3,10 +3,12 @@ package uge.friday.data;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class EventRecurrenceGenerator {
 
     public List<CalendarEvent> recurrenceToEvents(CalendarEvent event, int yearToDisplay, int monthToDisplay) {
+        Objects.requireNonNull(event);
         var events = new ArrayList<CalendarEvent>();
         var daysInDisplayMonth = YearMonth.of(yearToDisplay, monthToDisplay).lengthOfMonth();
         var dayRecurrenceStart = 1;
