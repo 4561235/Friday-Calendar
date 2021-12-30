@@ -30,6 +30,9 @@ http://localhost:8080/
 
 in your browser to use the calendar.
 
+When the app is built, a warning appears because it estimates that it needs the jackson resteasy dependency in order to read JSON.
+We are not sure if we are allowed use Jackson resteasy, so we decided to not include it in the pom.
+
 ## How to delete all data from database everytime when application launch?
 
 Go to:
