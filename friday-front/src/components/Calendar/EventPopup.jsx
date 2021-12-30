@@ -149,6 +149,7 @@ class EventPopup extends Component{
                             <select value={this.state.recurrence} onChange={e => this.setState({recurrence: e.target.value})}>
                                 <option value={this.state.recurrence}>{this.state.recurrence}</option>
                                 <option value="DAILY">DAILY</option>
+                                <option value="WEEKLY">WEEKLY</option>
                                 <option value="MONTHLY">MONTHLY</option>
                                 <option value="YEARLY">YEARLY</option>
                                 <option value="NONE">NONE</option>
