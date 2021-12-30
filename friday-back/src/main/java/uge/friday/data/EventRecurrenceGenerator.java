@@ -22,15 +22,19 @@ public class EventRecurrenceGenerator {
         this.eventsList = List.copyOf(eventsList);
     }
 
+    /**
+     * @param year of events to display
+     * @param month of events to display
+     * @return all events formatted to display
+     */
     public String generateRecurrentEvents(int year, int month){
         if(year < 0) throw new IllegalArgumentException("Year can't be < 0");
         if(month < 1 || month > 12) throw new IllegalArgumentException("Month must be between 1 and 12");
 
-
         final ObjectMapper mapper = new ObjectMapper();
 
         // Find all events for this combination year month without recurrence.
-        var eventsWithoutRecurrence = getEventsWithoutReccurence(year, month);
+        var eventsWithoutRecurrence = getEventsWithoutRecurrence(year, month);
 
         // Calculates new events by recurrence.
         var newEvents = calculateRecurrentEvents(year, month);
@@ -48,7 +52,13 @@ public class EventRecurrenceGenerator {
         return events;
     }
 
-    private List<CalendarEvent> getEventsWithoutReccurence(int year, int month){
+    /**
+     *
+     * @param year of events to display
+     * @param month of events to display
+     * @return events that have no recurrence
+     */
+    private List<CalendarEvent> getEventsWithoutRecurrence(int year, int month){
         return eventsList.stream().filter(e -> {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("y-M-d");
                     try {
@@ -62,6 +72,11 @@ public class EventRecurrenceGenerator {
                 }).collect(Collectors.toList());
     }
 
+    /**
+     * @param year of events to display
+     * @param month of events to display
+     * @return all events recurrence and generate by recurrence
+     */
     private List<CalendarEvent> calculateRecurrentEvents(int year, int month){
         var eventsRecurrent = eventsList.stream()
                 // Events start before/during the combination year month.
@@ -80,7 +95,7 @@ public class EventRecurrenceGenerator {
      * @param event with recurrence
      * @param yearToDisplay years of events to display
      * @param monthToDisplay month of events to display
-     * @return Generate events in relation to an event that has a recurrence
+     * @return Generate all events in relation to an event that has a recurrence
      */
     private List<CalendarEvent> recurrenceToEvents(CalendarEvent event, int yearToDisplay, int monthToDisplay) {
         Objects.requireNonNull(event);
