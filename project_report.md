@@ -30,6 +30,25 @@ http://localhost:8080/
 
 in your browser to use the calendar.
 
+## How to delete all data from database everytime when application launch?
+
+Go to:
+
+```
+friday-back/src/main/resources/application.properties
+```
+
+And change this line:
+
+```
+quarkus.hibernate-orm.database.generation = update
+```
+
+to:
+```
+quarkus.hibernate-orm.database.generation = drop-and-create
+```
+
 ## Working features:
 * Create/Update/Delete events. Events are saved in H2 database
 * An event has an title, description, location, date from, date to, time from, time to and a recurrence
