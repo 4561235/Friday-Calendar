@@ -5,6 +5,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import javax.persistence.*;
 import java.util.Objects;
 
+
 @Entity
 public class CalendarEvent extends PanacheEntity {
 

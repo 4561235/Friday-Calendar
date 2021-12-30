@@ -2,11 +2,8 @@ package uge.friday.rest;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import io.smallrye.config.SysPropConfigSource;
 import uge.friday.data.*;
 
-import java.sql.Time;
-import java.time.LocalDate;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.io.IOException;
@@ -16,13 +13,9 @@ import java.util.List;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.Objects;
 import java.util.StringJoiner;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
-import javax.ws.rs.core.Response;
 
 @Path("/calendar-events")
 public class CalendarEventsRest {
