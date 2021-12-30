@@ -39,30 +39,7 @@ public class CalendarEventsRest {
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
     public String getEvents(@PathParam int year, @PathParam int month) throws JsonProcessingException {
-
-        StringJoiner joiner = new StringJoiner(",","[","]");
-
         List<CalendarEvent> eventsList = repository.getEvents();
-        //System.out.println(eventsList.size());
-
-        /*
-        for(int i = 0; i < eventsList.size(); i++){
-            CalendarEvent event = eventsList.get(i);
-            if(event.getFrom().getMonth() == month && event.getFrom().getYear() == year){
-                String json = mapper.writeValueAsString(event);
-                joiner.add(json);
-            }
-        }
-        return joiner.toString();
-         */
-
-        /*
-        String collect = eventsList.stream()
-                .filter(e -> e.getFrom().getMonth() == month && e.getFrom().getYear() == year)
-                .map(ObjectMapper::writeValueAsString)
-                .collect(Collectors.joining(",", "[", "]"));
-
-         */
 
         // Find all events for this combination year month without recurrence.
         var eventsWithoutRecurrence = eventsList.stream()
@@ -71,10 +48,8 @@ public class CalendarEventsRest {
 
         // Find recurrent events.
         var eventsRecurrent = eventsList.stream()
-                // Events start before the combination year month.
-                .filter(e -> e.getFrom().getYear() <= year && e.getFrom().getMonth() <= month)
-                // Events end after/during the combination year month, but NOT before.
-                .filter(e -> e.getTo().getYear() >= year && e.getTo().getMonth() >= month)
+                // Events start before/during the combination year month.
+                .filter(e -> (e.getFrom().getYear() <= year && e.getFrom().getMonth() <= month) || e.getFrom().getYear() < year)
                 .filter(e -> e.getRecurrence() != EventRecurrenceEnum.NONE)
                 .collect(Collectors.toList());
 
@@ -84,9 +59,7 @@ public class CalendarEventsRest {
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
 
-        //var newEvents = eventsRecurrent.forEach(e -> );
-
-        // Convert all events.
+        // Convert all events for display.
         var events = Stream.concat(eventsWithoutRecurrence.stream(), newEvents.stream())
                 .map(e -> {
                     try {
@@ -95,37 +68,38 @@ public class CalendarEventsRest {
                     return null;
                 })
                 .collect(Collectors.joining(",", "[", "]"));
-
         return events;
     }
 
 
-    public static List<CalendarEvent> recurrentToEvents(CalendarEvent event, int currentYear, int currentMonth) {
-        var daysInCurrentMonth = YearMonth.of(currentYear, currentMonth).lengthOfMonth();
+    public static List<CalendarEvent> recurrentToEvents(CalendarEvent event, int yearToDisplay, int monthToDisplay) {
         var events = new ArrayList<CalendarEvent>();
+        var daysInDisplayMonth = YearMonth.of(yearToDisplay, monthToDisplay).lengthOfMonth();
+        var dayRecurrenceStart = 1;
+        if (event.getFrom().getYear() == yearToDisplay && event.getFrom().getMonth() == monthToDisplay) dayRecurrenceStart = event.getFrom().getDay();
         switch (event.getRecurrence()) {
             case NONE -> { /* Nothing. */ }
             case DAILY -> {
-                for (var i = 1; i <= daysInCurrentMonth; i++) {
-                    var newCalendarDateFrom = new CalendarDate(i, currentMonth, currentYear, event.getFrom().getTime());
-                    events.add(new CalendarEvent(newCalendarDateFrom, event.getTo(), event.getRecurrence(), event.getCalendarType(), event.getTitle(), event.getLocation(), event.getDescription(), event.isAllDay()));
+                for (var day = dayRecurrenceStart; day <= daysInDisplayMonth; day++) {
+                    var newCalendarDateFrom = new CalendarDate(day, monthToDisplay, yearToDisplay, event.getFrom().getTime());
+                    events.add(new CalendarEvent(newCalendarDateFrom, newCalendarDateFrom, event.getRecurrence(), event.getCalendarType(), event.getTitle(), event.getLocation(), event.getDescription(), event.isAllDay()));
                 }
             }
             case WEEKLY -> {
-                for (var i = event.getFrom().getDay(); i <= daysInCurrentMonth; i+=7) {
-                    var newCalendarDateFrom = new CalendarDate(i, currentMonth, currentYear, event.getFrom().getTime());
-                    events.add(new CalendarEvent(newCalendarDateFrom, event.getTo(), event.getRecurrence(), event.getCalendarType(), event.getTitle(), event.getLocation(), event.getDescription(), event.isAllDay()));
+                for (var day = dayRecurrenceStart; day <= daysInDisplayMonth; day+=7) {
+                    var newCalendarDateFrom = new CalendarDate(day, monthToDisplay, yearToDisplay, event.getFrom().getTime());
+                    events.add(new CalendarEvent(newCalendarDateFrom, newCalendarDateFrom, event.getRecurrence(), event.getCalendarType(), event.getTitle(), event.getLocation(), event.getDescription(), event.isAllDay()));
                 }
             }
             case MONTHLY -> {
-                var day = Math.min(event.getFrom().getDay(), daysInCurrentMonth);
-                var newCalendarDateFrom = new CalendarDate(day, currentMonth, currentYear, event.getFrom().getTime());
-                events.add(new CalendarEvent(newCalendarDateFrom, event.getTo(), event.getRecurrence(), event.getCalendarType(), event.getTitle(), event.getLocation(), event.getDescription(), event.isAllDay()));
+                var day = Math.min(event.getFrom().getDay(), daysInDisplayMonth);
+                var newCalendarDateFrom = new CalendarDate(day, monthToDisplay, yearToDisplay, event.getFrom().getTime());
+                events.add(new CalendarEvent(newCalendarDateFrom, newCalendarDateFrom, event.getRecurrence(), event.getCalendarType(), event.getTitle(), event.getLocation(), event.getDescription(), event.isAllDay()));
             }
             case YEARLY -> {
-                var day = Math.min(event.getFrom().getDay(), daysInCurrentMonth);
-                var newCalendarDateFrom = new CalendarDate(day, currentMonth, currentYear, event.getFrom().getTime());
-                events.add(new CalendarEvent(newCalendarDateFrom, event.getTo(), event.getRecurrence(), event.getCalendarType(), event.getTitle(), event.getLocation(), event.getDescription(), event.isAllDay()));
+                var day = Math.min(event.getFrom().getDay(), daysInDisplayMonth);
+                var newCalendarDateFrom = new CalendarDate(day, event.getFrom().getMonth(), yearToDisplay, event.getFrom().getTime());
+                events.add(new CalendarEvent(newCalendarDateFrom, newCalendarDateFrom, event.getRecurrence(), event.getCalendarType(), event.getTitle(), event.getLocation(), event.getDescription(), event.isAllDay()));
             }
         }
         return events;
