@@ -29,8 +29,8 @@ class FileUploader extends Component{
     }
 
     sendIcal(url){
-        var promise = fetch(url , {
-          method: 'GET', // *GET, POST, PUT, DELETE, etc.
+        fetch(url , {
+          method: 'PUT', // *GET, POST, PUT, DELETE, etc.
           mode: 'cors', // no-cors, *cors, same-origin
           cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
           credentials: 'same-origin', // include, *same-origin, omit
@@ -47,8 +47,6 @@ class FileUploader extends Component{
           .catch(err => {
             this.setState({uploadMessage: "Erreur d'envoi"})
         });
-
-        return promise;
     }
 
     fetchIcalFromUrl(){

@@ -2,7 +2,7 @@ export default class EventsManager{
 
     deleteEvent(event){
         var url = "http://localhost:8080/calendar-events/deleteEvent/" + event.id;
-        var promise = this.fetchInBackend(url);
+        var promise = this.fetchInBackend(url, 'DELETE');
         return promise;
     }
 
@@ -28,14 +28,13 @@ export default class EventsManager{
         event.allDay = allDay;
 
         var url = "http://localhost:8080/calendar-events/addEvent/" + JSON.stringify(event);
-        var promise = this.fetchInBackend(url);
+        var promise = this.fetchInBackend(url, 'PUT');
         return promise;
     }
 
     updateEvent(id, fromYear, fromMonth, fromDay, toYear, toMonth, toDay, fromHour, fromMinute, toHour, toMinute ,title, location, description, recurrence, allDay){
         let event = this.createBlankEvent(fromYear,fromMonth)
 
-        // event.id = id
         event.from.year = fromYear;
         event.from.month = fromMonth;
         event.from.day = fromDay;
@@ -56,7 +55,7 @@ export default class EventsManager{
 
 
         var url = "http://localhost:8080/calendar-events/updateEvent/" +id +"/" + JSON.stringify(event);
-        var promise = this.fetchInBackend(url);
+        var promise = this.fetchInBackend(url, 'PUT');
         return promise;
 
     }
@@ -64,7 +63,7 @@ export default class EventsManager{
     getEvents(year, month){
         var url = "http://localhost:8080/calendar-events/getEvents/" + year + "/" +month;
 
-        var promise = this.fetchInBackend(url)
+        var promise = this.fetchInBackend(url, 'GET')
             .then(response => response.json())
             .then( (user) => {
                 var jsonStr = JSON.stringify(user);
@@ -75,9 +74,9 @@ export default class EventsManager{
           return promise;
     }
 
-    fetchInBackend(url){
+    fetchInBackend(url, fetchMethod){
         var promise = fetch(url , {
-          method: 'GET', // *GET, POST, PUT, DELETE, etc.
+          method: fetchMethod, // *GET, POST, PUT, DELETE, etc.
           mode: 'cors', // no-cors, *cors, same-origin
           cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
           credentials: 'same-origin', // include, *same-origin, omit
