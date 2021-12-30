@@ -45,7 +45,7 @@ public class CalendarEventsRest {
         List<CalendarEvent> eventsList = repository.getEvents();
         //System.out.println(eventsList.size());
 
-        /*
+
         for(int i = 0; i < eventsList.size(); i++){
             CalendarEvent event = eventsList.get(i);
             if(event.getFrom().getMonth() == month && event.getFrom().getYear() == year){
@@ -54,7 +54,7 @@ public class CalendarEventsRest {
             }
         }
         return joiner.toString();
-         */
+
 
         /*
         String collect = eventsList.stream()
@@ -64,39 +64,39 @@ public class CalendarEventsRest {
 
          */
 
-        // Find all events for this combination year month without recurrence.
-        var eventsWithoutRecurrence = eventsList.stream()
-                .filter(e -> e.getFrom().getMonth() == month && e.getFrom().getYear() == year && e.getRecurrence() == EventRecurrenceEnum.NONE)
-                .collect(Collectors.toList());
-
-        // Find recurrent events.
-        var eventsRecurrent = eventsList.stream()
-                // Events start before the combination year month.
-                .filter(e -> e.getFrom().getYear() <= year && e.getFrom().getMonth() <= month)
-                // Events end after/during the combination year month, but NOT before.
-                .filter(e -> e.getTo().getYear() >= year && e.getTo().getMonth() >= month)
-                .filter(e -> e.getRecurrence() != EventRecurrenceEnum.NONE)
-                .collect(Collectors.toList());
-
-        // Calculates new events by recurrence.
-        var newEvents = eventsRecurrent.stream()
-                .map(e -> recurrentToEvents(e, year, month))
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
-
-        //var newEvents = eventsRecurrent.forEach(e -> );
-
-        // Convert all events.
-        var events = Stream.concat(eventsWithoutRecurrence.stream(), newEvents.stream())
-                .map(e -> {
-                    try {
-                        return mapper.writeValueAsString(e);
-                    } catch (JsonProcessingException ex) { /* Do nothing. */ }
-                    return null;
-                })
-                .collect(Collectors.joining(",", "[", "]"));
-
-        return events;
+//        // Find all events for this combination year month without recurrence.
+//        var eventsWithoutRecurrence = eventsList.stream()
+//                .filter(e -> e.getFrom().getMonth() == month && e.getFrom().getYear() == year && e.getRecurrence() == EventRecurrenceEnum.NONE)
+//                .collect(Collectors.toList());
+//
+//        // Find recurrent events.
+//        var eventsRecurrent = eventsList.stream()
+//                // Events start before the combination year month.
+//                .filter(e -> e.getFrom().getYear() <= year && e.getFrom().getMonth() <= month)
+//                // Events end after/during the combination year month, but NOT before.
+//                .filter(e -> e.getTo().getYear() >= year && e.getTo().getMonth() >= month)
+//                .filter(e -> e.getRecurrence() != EventRecurrenceEnum.NONE)
+//                .collect(Collectors.toList());
+//
+//        // Calculates new events by recurrence.
+//        var newEvents = eventsRecurrent.stream()
+//                .map(e -> recurrentToEvents(e, year, month))
+//                .flatMap(List::stream)
+//                .collect(Collectors.toList());
+//
+//        //var newEvents = eventsRecurrent.forEach(e -> );
+//
+//        // Convert all events.
+//        var events = Stream.concat(eventsWithoutRecurrence.stream(), newEvents.stream())
+//                .map(e -> {
+//                    try {
+//                        return mapper.writeValueAsString(e);
+//                    } catch (JsonProcessingException ex) { /* Do nothing. */ }
+//                    return null;
+//                })
+//                .collect(Collectors.joining(",", "[", "]"));
+//
+//        return events;
     }
 
 
