@@ -13,8 +13,6 @@ public class CalendarEventRepository implements PanacheRepository<CalendarEvent>
         return list("");
     }
 
-
-
     public void deleteEvent(long id){
         delete("id", id);
     }

@@ -28,20 +28,20 @@ import java.util.List;
 
 public class GoogleCalendarIntegration {
 
-    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
-    private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
-    private static final String TOKENS_DIRECTORY_PATH = "tokens";
+    private final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+    private final String CREDENTIALS_FILE_PATH = "/credentials.json";
+    private final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
+    private final String TOKENS_DIRECTORY_PATH = "tokens";
 
 
 
     public List<CalendarEvent> getCalendarEvents() throws GeneralSecurityException, IOException {
         ArrayList<CalendarEvent> calendarEventsList = new ArrayList<>();
         List<Event> googleEvents = this.getGoogleCalendarEvents();
+
         for (Event googleEvent : googleEvents) {
             String summary = googleEvent.getSummary();
             if(summary == null) summary = "";
-//            System.out.println(summary);
 
             String location = googleEvent.getLocation();
             if(location == null) location = "";
@@ -58,17 +58,19 @@ public class GoogleCalendarIntegration {
             if(from != null || to != null) {
                 calFrom.setTime(new Date(from.getValue()));
                 calTo.setTime(new Date(to.getValue()));
-
-                CalendarEvent calEvent = new CalendarEvent(
+                CalendarEventBuilder eventBuilder = new CalendarEventBuilder(summary,
                         new CalendarDate(calFrom.get(java.util.Calendar.DAY_OF_MONTH), calFrom.get(java.util.Calendar.MONTH) + 1, calFrom.get(java.util.Calendar.YEAR), new CalendarTime(calFrom.get(java.util.Calendar.HOUR), calFrom.get(java.util.Calendar.MINUTE))),
-                        new CalendarDate(calTo.get(java.util.Calendar.DAY_OF_MONTH), calTo.get(java.util.Calendar.MONTH) + 1, calTo.get(java.util.Calendar.YEAR), new CalendarTime(calTo.get(java.util.Calendar.HOUR), calTo.get(java.util.Calendar.MINUTE))),
-                        EventRecurrenceEnum.NONE,
-                        CalendarTypeEnum.GOOGLECAL,
-                        summary, location, description, false);
-                calendarEventsList.add(calEvent);
+                        new CalendarDate(calTo.get(java.util.Calendar.DAY_OF_MONTH), calTo.get(java.util.Calendar.MONTH) + 1, calTo.get(java.util.Calendar.YEAR), new CalendarTime(calTo.get(java.util.Calendar.HOUR), calTo.get(java.util.Calendar.MINUTE))));
+
+                eventBuilder.setRecurrence(EventRecurrenceEnum.NONE)
+                            .setCalendarType(CalendarTypeEnum.GOOGLECAL)
+                            .setLocation(location)
+                            .setDescription(description)
+                            .setAllDay(false);
+
+                calendarEventsList.add(eventBuilder.build());
             }
         }
-
         return calendarEventsList;
     }
 
@@ -79,11 +81,7 @@ public class GoogleCalendarIntegration {
                 .setApplicationName("Friday").build();
 
         Events events = service.events().list("primary").setPageToken(null).execute();
-        List<Event> items = events.getItems();
-        return items;
-//        for (Event event : items) {
-//            System.out.println(event.getSummary());
-//        }
+        return events.getItems();
     }
 
     private Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
@@ -98,15 +96,7 @@ public class GoogleCalendarIntegration {
                 .setAccessType("offline")
                 .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-        Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
 
-        return credential;
-    }
-
-    public static void main(String[] args) throws GeneralSecurityException, IOException {
-        GoogleCalendarIntegration googleCal = new GoogleCalendarIntegration();
-        for(CalendarEvent calEvent : googleCal.getCalendarEvents()){
-
-        }
+        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 }

@@ -1,7 +1,6 @@
 package uge.friday.data;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -18,6 +17,7 @@ public class CalendarDate extends PanacheEntity {
     @ManyToOne(cascade = {CascadeType.ALL})
     private CalendarTime time;
 
+    //Default constructor is needed for panache
     public CalendarDate(){
         this.day = 1;
         this.month = 1;

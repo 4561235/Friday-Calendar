@@ -8,9 +8,10 @@ public class CalendarTime extends PanacheEntity {
     private int hour;
     private int minute;
 
+    //Default constructor is needed for panache
     public CalendarTime(){
-        this.hour = 12;
-        this.minute = 30;
+        this.hour = 0;
+        this.minute = 0;
     }
 
     public CalendarTime(int hour, int minute){
