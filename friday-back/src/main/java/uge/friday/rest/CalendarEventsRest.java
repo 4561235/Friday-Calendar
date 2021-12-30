@@ -4,10 +4,13 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import uge.friday.data.*;
 
+<<<<<<< HEAD
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.YearMonth;
 import java.util.ArrayList;
+=======
+>>>>>>> main
 import java.io.IOException;
 import java.security.GeneralSecurityException;
 import java.util.Date;
@@ -16,7 +19,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.util.StringJoiner;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.jboss.resteasy.annotations.jaxrs.PathParam;
 
@@ -33,6 +37,7 @@ public class CalendarEventsRest {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
+<<<<<<< HEAD
     public String getEvents(@PathParam int year, @PathParam int month) throws JsonProcessingException, ParseException {
 
         StringJoiner joiner = new StringJoiner(",","[","]");
@@ -61,79 +66,42 @@ public class CalendarEventsRest {
         String collect = eventsList.stream()
                 .filter(e -> e.getFrom().getMonth() == month && e.getFrom().getYear() == year)
                 .map(ObjectMapper::writeValueAsString)
+=======
+    public String getEvents(@PathParam int year, @PathParam int month) throws JsonProcessingException {
+        List<CalendarEvent> eventsList = repository.getEvents();
+        var eventRecGen = new EventRecurrenceGenerator();
+
+        // Find all events for this combination year month without recurrence.
+        var eventsWithoutRecurrence = eventsList.stream()
+                .filter(e -> e.getFrom().getMonth() == month && e.getFrom().getYear() == year && e.getRecurrence() == EventRecurrenceEnum.NONE)
+                .collect(Collectors.toList());
+
+        // Find recurrent events.
+        var eventsRecurrent = eventsList.stream()
+                // Events start before/during the combination year month.
+                .filter(e -> (e.getFrom().getYear() <= year && e.getFrom().getMonth() <= month) || e.getFrom().getYear() < year)
+                .filter(e -> e.getRecurrence() != EventRecurrenceEnum.NONE)
+                .collect(Collectors.toList());
+
+        // Calculates new events by recurrence.
+        var newEvents = eventsRecurrent.stream()
+                .map(e -> eventRecGen.recurrenceToEvents(e, year, month))
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+
+        // Convert all events for display.
+        var events = Stream.concat(eventsWithoutRecurrence.stream(), newEvents.stream())
+                .map(e -> {
+                    try {
+                        return mapper.writeValueAsString(e);
+                    } catch (JsonProcessingException ex) { /* Do nothing. */ }
+                    return null;
+                })
+>>>>>>> main
                 .collect(Collectors.joining(",", "[", "]"));
-
-         */
-
-//        // Find all events for this combination year month without recurrence.
-//        var eventsWithoutRecurrence = eventsList.stream()
-//                .filter(e -> e.getFrom().getMonth() == month && e.getFrom().getYear() == year && e.getRecurrence() == EventRecurrenceEnum.NONE)
-//                .collect(Collectors.toList());
-//
-//        // Find recurrent events.
-//        var eventsRecurrent = eventsList.stream()
-//                // Events start before the combination year month.
-//                .filter(e -> e.getFrom().getYear() <= year && e.getFrom().getMonth() <= month)
-//                // Events end after/during the combination year month, but NOT before.
-//                .filter(e -> e.getTo().getYear() >= year && e.getTo().getMonth() >= month)
-//                .filter(e -> e.getRecurrence() != EventRecurrenceEnum.NONE)
-//                .collect(Collectors.toList());
-//
-//        // Calculates new events by recurrence.
-//        var newEvents = eventsRecurrent.stream()
-//                .map(e -> recurrentToEvents(e, year, month))
-//                .flatMap(List::stream)
-//                .collect(Collectors.toList());
-//
-//        //var newEvents = eventsRecurrent.forEach(e -> );
-//
-//        // Convert all events.
-//        var events = Stream.concat(eventsWithoutRecurrence.stream(), newEvents.stream())
-//                .map(e -> {
-//                    try {
-//                        return mapper.writeValueAsString(e);
-//                    } catch (JsonProcessingException ex) { /* Do nothing. */ }
-//                    return null;
-//                })
-//                .collect(Collectors.joining(",", "[", "]"));
-//
-//        return events;
-    }
-
-
-    public static List<CalendarEvent> recurrentToEvents(CalendarEvent event, int currentYear, int currentMonth) {
-        var daysInCurrentMonth = YearMonth.of(currentYear, currentMonth).lengthOfMonth();
-        var events = new ArrayList<CalendarEvent>();
-        switch (event.getRecurrence()) {
-            case NONE -> { /* Nothing. */ }
-            case DAILY -> {
-                for (var i = 1; i <= daysInCurrentMonth; i++) {
-                    var newCalendarDateFrom = new CalendarDate(i, currentMonth, currentYear, event.getFrom().getTime());
-                    events.add(new CalendarEvent(newCalendarDateFrom, event.getTo(), event.getRecurrence(), event.getCalendarType(), event.getTitle(), event.getLocation(), event.getDescription(), event.isAllDay()));
-                }
-            }
-            case WEEKLY -> {
-                for (var i = event.getFrom().getDay(); i <= daysInCurrentMonth; i+=7) {
-                    var newCalendarDateFrom = new CalendarDate(i, currentMonth, currentYear, event.getFrom().getTime());
-                    events.add(new CalendarEvent(newCalendarDateFrom, event.getTo(), event.getRecurrence(), event.getCalendarType(), event.getTitle(), event.getLocation(), event.getDescription(), event.isAllDay()));
-                }
-            }
-            case MONTHLY -> {
-                var day = Math.min(event.getFrom().getDay(), daysInCurrentMonth);
-                var newCalendarDateFrom = new CalendarDate(day, currentMonth, currentYear, event.getFrom().getTime());
-                events.add(new CalendarEvent(newCalendarDateFrom, event.getTo(), event.getRecurrence(), event.getCalendarType(), event.getTitle(), event.getLocation(), event.getDescription(), event.isAllDay()));
-            }
-            case YEARLY -> {
-                var day = Math.min(event.getFrom().getDay(), daysInCurrentMonth);
-                var newCalendarDateFrom = new CalendarDate(day, currentMonth, currentYear, event.getFrom().getTime());
-                events.add(new CalendarEvent(newCalendarDateFrom, event.getTo(), event.getRecurrence(), event.getCalendarType(), event.getTitle(), event.getLocation(), event.getDescription(), event.isAllDay()));
-            }
-        }
         return events;
     }
 
-
-    
     //Delete a calendar event for database using it's id
     
     @Path("deleteEvent/{id}")
