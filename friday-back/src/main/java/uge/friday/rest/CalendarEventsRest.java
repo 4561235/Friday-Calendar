@@ -40,6 +40,7 @@ public class CalendarEventsRest {
     @Transactional
     public String getEvents(@PathParam int year, @PathParam int month) throws JsonProcessingException {
         List<CalendarEvent> eventsList = repository.getEvents();
+        var eventRecGen = new EventRecurrenceGenerator();
 
         // Find all events for this combination year month without recurrence.
         var eventsWithoutRecurrence = eventsList.stream()
@@ -55,7 +56,7 @@ public class CalendarEventsRest {
 
         // Calculates new events by recurrence.
         var newEvents = eventsRecurrent.stream()
-                .map(e -> recurrentToEvents(e, year, month))
+                .map(e -> eventRecGen.recurrenceToEvents(e, year, month))
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
 
@@ -71,42 +72,6 @@ public class CalendarEventsRest {
         return events;
     }
 
-
-    public static List<CalendarEvent> recurrentToEvents(CalendarEvent event, int yearToDisplay, int monthToDisplay) {
-        var events = new ArrayList<CalendarEvent>();
-        var daysInDisplayMonth = YearMonth.of(yearToDisplay, monthToDisplay).lengthOfMonth();
-        var dayRecurrenceStart = 1;
-        if (event.getFrom().getYear() == yearToDisplay && event.getFrom().getMonth() == monthToDisplay) dayRecurrenceStart = event.getFrom().getDay();
-        switch (event.getRecurrence()) {
-            case NONE -> { /* Nothing. */ }
-            case DAILY -> {
-                for (var day = dayRecurrenceStart; day <= daysInDisplayMonth; day++) {
-                    var newCalendarDateFrom = new CalendarDate(day, monthToDisplay, yearToDisplay, event.getFrom().getTime());
-                    events.add(new CalendarEvent(newCalendarDateFrom, newCalendarDateFrom, event.getRecurrence(), event.getCalendarType(), event.getTitle(), event.getLocation(), event.getDescription(), event.isAllDay()));
-                }
-            }
-            case WEEKLY -> {
-                for (var day = dayRecurrenceStart; day <= daysInDisplayMonth; day+=7) {
-                    var newCalendarDateFrom = new CalendarDate(day, monthToDisplay, yearToDisplay, event.getFrom().getTime());
-                    events.add(new CalendarEvent(newCalendarDateFrom, newCalendarDateFrom, event.getRecurrence(), event.getCalendarType(), event.getTitle(), event.getLocation(), event.getDescription(), event.isAllDay()));
-                }
-            }
-            case MONTHLY -> {
-                var day = Math.min(event.getFrom().getDay(), daysInDisplayMonth);
-                var newCalendarDateFrom = new CalendarDate(day, monthToDisplay, yearToDisplay, event.getFrom().getTime());
-                events.add(new CalendarEvent(newCalendarDateFrom, newCalendarDateFrom, event.getRecurrence(), event.getCalendarType(), event.getTitle(), event.getLocation(), event.getDescription(), event.isAllDay()));
-            }
-            case YEARLY -> {
-                var day = Math.min(event.getFrom().getDay(), daysInDisplayMonth);
-                var newCalendarDateFrom = new CalendarDate(day, event.getFrom().getMonth(), yearToDisplay, event.getFrom().getTime());
-                events.add(new CalendarEvent(newCalendarDateFrom, newCalendarDateFrom, event.getRecurrence(), event.getCalendarType(), event.getTitle(), event.getLocation(), event.getDescription(), event.isAllDay()));
-            }
-        }
-        return events;
-    }
-
-
-    
     //Supprime l'event de la BDD avec un id specifique
     
     @Path("deleteEvent/{id}")
