@@ -4,13 +4,21 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import uge.friday.data.*;
 
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.YearMonth;
+import java.util.ArrayList;
+
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
+import java.util.StringJoiner;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -31,38 +39,12 @@ public class CalendarEventsRest {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Transactional
+
     public String getEvents(@PathParam int year, @PathParam int month) throws JsonProcessingException {
         List<CalendarEvent> eventsList = repository.getEvents();
-        var eventRecGen = new EventRecurrenceGenerator();
+        var eventRecGen = new EventRecurrenceGenerator(eventsList);
 
-        // Find all events for this combination year month without recurrence.
-        var eventsWithoutRecurrence = eventsList.stream()
-                .filter(e -> e.getFrom().getMonth() == month && e.getFrom().getYear() == year && e.getRecurrence() == EventRecurrenceEnum.NONE)
-                .collect(Collectors.toList());
-
-        // Find recurrent events.
-        var eventsRecurrent = eventsList.stream()
-                // Events start before/during the combination year month.
-                .filter(e -> (e.getFrom().getYear() <= year && e.getFrom().getMonth() <= month) || e.getFrom().getYear() < year)
-                .filter(e -> e.getRecurrence() != EventRecurrenceEnum.NONE)
-                .collect(Collectors.toList());
-
-        // Calculates new events by recurrence.
-        var newEvents = eventsRecurrent.stream()
-                .map(e -> eventRecGen.recurrenceToEvents(e, year, month))
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
-
-        // Convert all events for display.
-        var events = Stream.concat(eventsWithoutRecurrence.stream(), newEvents.stream())
-                .map(e -> {
-                    try {
-                        return mapper.writeValueAsString(e);
-                    } catch (JsonProcessingException ex) { /* Do nothing. */ }
-                    return null;
-                })
-                .collect(Collectors.joining(",", "[", "]"));
-        return events;
+        return eventRecGen.generateRecurrentEvents(year, month);
     }
 
     /**
@@ -70,7 +52,7 @@ public class CalendarEventsRest {
      * @param id of an event
      */
     @Path("deleteEvent/{id}")
-    @GET
+    @DELETE
     @Transactional
     public void deleteEvent(@PathParam long id){
         repository.deleteEvent(id);
@@ -82,7 +64,7 @@ public class CalendarEventsRest {
      * @throws JsonProcessingException
      */
     @Path("updateEvent/{id}/{eventJson}")
-    @GET
+    @PUT
     @Transactional
     public void updateEvent(@PathParam long id, @PathParam String eventJson) throws JsonProcessingException {
         CalendarEvent event = mapper.readValue(eventJson, CalendarEvent.class);
@@ -95,7 +77,7 @@ public class CalendarEventsRest {
      * @throws JsonProcessingException
      */
     @Path("addEvent/{eventJson}")
-    @GET
+    @PUT
     @Transactional
     public void addEvent(@PathParam String eventJson) throws JsonProcessingException {
         CalendarEvent event = mapper.readValue(eventJson, CalendarEvent.class);
@@ -107,7 +89,7 @@ public class CalendarEventsRest {
      * @param icalString formatted event to add
      */
     @Path("sendIcal/{icalString}")
-    @GET
+    @PUT
     @Transactional
     public void addIcalEvents(@PathParam String icalString){
         IcalReader reader = new IcalReader();
