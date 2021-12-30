@@ -9,7 +9,6 @@ import java.util.Objects;
 @Entity
 public class CalendarEvent extends PanacheEntity {
 
-//    private int id;
     @ManyToOne(cascade = {CascadeType.ALL})
     private CalendarDate from;
     @ManyToOne(cascade = {CascadeType.ALL})
@@ -21,8 +20,8 @@ public class CalendarEvent extends PanacheEntity {
     private CalendarTypeEnum calendarType;
     private boolean allDay;
 
+    //Default constructor is needed for panache
     public CalendarEvent(){
-//        this.id = 0;
         this.title = "";
         this.from = null;
         this.to = null;
@@ -40,7 +39,6 @@ public class CalendarEvent extends PanacheEntity {
         Objects.requireNonNull(description);
         Objects.requireNonNull(location);
 
-//        this.id = id;
         this.title = title;
         this.from = from;
         this.to = to;
@@ -50,10 +48,6 @@ public class CalendarEvent extends PanacheEntity {
         this.description = description;
         this.allDay = allDay;
     }
-
-//    public int getId() {
-//        return id;
-//    }
 
     public String getTitle() {
         return title;

@@ -28,10 +28,10 @@ import java.util.List;
 
 public class GoogleCalendarIntegration {
 
-    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
-    private static final String CREDENTIALS_FILE_PATH = "/credentials.json";
-    private static final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
-    private static final String TOKENS_DIRECTORY_PATH = "tokens";
+    private final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
+    private final String CREDENTIALS_FILE_PATH = "/credentials.json";
+    private final List<String> SCOPES = Collections.singletonList(CalendarScopes.CALENDAR_READONLY);
+    private final String TOKENS_DIRECTORY_PATH = "tokens";
 
 
 
@@ -59,10 +59,8 @@ public class GoogleCalendarIntegration {
                 calFrom.setTime(new Date(from.getValue()));
                 calTo.setTime(new Date(to.getValue()));
                 CalendarEventBuilder eventBuilder = new CalendarEventBuilder(summary,
-                        new CalendarDate(calFrom.get(java.util.Calendar.DAY_OF_MONTH), calFrom.get(java.util.Calendar.MONTH) + 1, calFrom.get(java.util.Calendar.YEAR),
-                                new CalendarTime(calFrom.get(java.util.Calendar.HOUR), calFrom.get(java.util.Calendar.MINUTE))),
-                        new CalendarDate(calTo.get(java.util.Calendar.DAY_OF_MONTH), calTo.get(java.util.Calendar.MONTH) + 1, calTo.get(java.util.Calendar.YEAR),
-                                new CalendarTime(calTo.get(java.util.Calendar.HOUR), calTo.get(java.util.Calendar.MINUTE))));
+                        new CalendarDate(calFrom.get(java.util.Calendar.DAY_OF_MONTH), calFrom.get(java.util.Calendar.MONTH) + 1, calFrom.get(java.util.Calendar.YEAR), new CalendarTime(calFrom.get(java.util.Calendar.HOUR), calFrom.get(java.util.Calendar.MINUTE))),
+                        new CalendarDate(calTo.get(java.util.Calendar.DAY_OF_MONTH), calTo.get(java.util.Calendar.MONTH) + 1, calTo.get(java.util.Calendar.YEAR), new CalendarTime(calTo.get(java.util.Calendar.HOUR), calTo.get(java.util.Calendar.MINUTE))));
 
                 eventBuilder.setRecurrence(EventRecurrenceEnum.NONE)
                             .setCalendarType(CalendarTypeEnum.GOOGLECAL)
@@ -73,7 +71,6 @@ public class GoogleCalendarIntegration {
                 calendarEventsList.add(eventBuilder.build());
             }
         }
-
         return calendarEventsList;
     }
 
@@ -84,8 +81,7 @@ public class GoogleCalendarIntegration {
                 .setApplicationName("Friday").build();
 
         Events events = service.events().list("primary").setPageToken(null).execute();
-        List<Event> items = events.getItems();
-        return items;
+        return events.getItems();
     }
 
     private Credential getCredentials(final NetHttpTransport HTTP_TRANSPORT) throws IOException {
@@ -100,8 +96,7 @@ public class GoogleCalendarIntegration {
                 .setAccessType("offline")
                 .build();
         LocalServerReceiver receiver = new LocalServerReceiver.Builder().setPort(8888).build();
-        Credential credential = new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
 
-        return credential;
+        return new AuthorizationCodeInstalledApp(flow, receiver).authorize("user");
     }
 }

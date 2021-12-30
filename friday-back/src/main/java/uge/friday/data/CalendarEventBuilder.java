@@ -4,9 +4,9 @@ import java.util.Objects;
 
 public class CalendarEventBuilder {
 
-    private CalendarDate from;
-    private CalendarDate to;
-    private String title;
+    private final CalendarDate from;
+    private final CalendarDate to;
+    private final String title;
 
     private String location = "";
     private String description = "";

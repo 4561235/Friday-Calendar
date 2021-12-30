@@ -20,13 +20,12 @@ import org.jboss.resteasy.annotations.jaxrs.PathParam;
 @Path("/calendar-events")
 public class CalendarEventsRest {
 
-    private PseudoTestDatabase testDatabase = new PseudoTestDatabase();
-    private CalendarEventRepository repository = new CalendarEventRepository();
-    private ObjectMapper mapper = new ObjectMapper();
+    private final CalendarEventRepository repository = new CalendarEventRepository();
+    private final ObjectMapper mapper = new ObjectMapper();
 
-    //Imaginons que l'utilisateur veut voir les events de de decembre 2021 alors react va appeler cette
-    //methode en donnant l'annee et le mois en parametre. Cette methode va devoir interoger la base de donnees
-    //et renvoyer tout les events en forme de JSON en utilisant Jackson
+    //React will call this method to get events from a month in a year this method need to
+    //return a json array of events
+
     @Path("getEvents/{year}/{month}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -126,7 +125,7 @@ public class CalendarEventsRest {
 
 
     
-    //Supprime l'event de la BDD avec un id specifique
+    //Delete a calendar event for database using it's id
     
     @Path("deleteEvent/{id}")
     @GET
@@ -146,7 +145,7 @@ public class CalendarEventsRest {
         repository.updateEvent(id, event);
     }
     
-    //Lis l'eventJson et le rajoute dans la BDD
+    //Convert the event in json format to CalendarEvent class and add it to database
     
     @Path("addEvent/{eventJson}")
     @GET
@@ -156,20 +155,20 @@ public class CalendarEventsRest {
         repository.persist(event);
     }
 
-    //Lis le string en format ical et rajoute les events dans la BDD
+    //Read the ical format string, converts IcalEvents to CalendarEvents and add it to database
     
     @Path("sendIcal/{icalString}")
     @GET
     @Transactional
     public void addIcalEvents(@PathParam String icalString){
-
-        System.out.println(icalString);
         IcalReader reader = new IcalReader();
         List<CalendarEvent> list = reader.readIcal(icalString);
         for(CalendarEvent event : list){
             repository.persist(event);
         }
     }
+
+    //Get events from google calendar, converts GoogleCalendarEvents to CalendarEvents and add it to database
 
     @Path("connectToGoogleCalendar/")
     @GET
