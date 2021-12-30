@@ -6,6 +6,12 @@ import java.util.List;
 
 public class EventRecurrenceGenerator {
 
+    /**
+     * @param event with recurrence
+     * @param yearToDisplay years of events to display
+     * @param monthToDisplay month of events to display
+     * @return Generate events in relation to an event that has a recurrence
+     */
     public List<CalendarEvent> recurrenceToEvents(CalendarEvent event, int yearToDisplay, int monthToDisplay) {
         var events = new ArrayList<CalendarEvent>();
         var daysInDisplayMonth = YearMonth.of(yearToDisplay, monthToDisplay).lengthOfMonth();

@@ -9,6 +9,10 @@ import java.util.List;
 
 public class IcalReader {
 
+    /**
+     * @param icalString Formatted ical event
+     * @return ical event transform into CalendarEvent
+     */
     public List<CalendarEvent> readIcal(String icalString){
         ArrayList<CalendarEvent> list = new ArrayList<>();
         ICalendar ical = Biweekly.parse(icalString).first();
