@@ -25,12 +25,12 @@ class CalendarDateTest {
 
     @Test
     public void calendarDateDataYearInferiorIAE() {
-        assertThrows(IllegalArgumentException.class, () -> new CalendarDate(31, 12, 1949, new CalendarTime()));
+        assertThrows(IllegalArgumentException.class, () -> new CalendarDate(31, 12, -1, new CalendarTime()));
     }
 
     @Test
     public void calendarDateDataYearSuperiorIAE() {
-        assertThrows(IllegalArgumentException.class, () -> new CalendarDate(31, 12, 2101, new CalendarTime()));
+        assertThrows(IllegalArgumentException.class, () -> new CalendarDate(31, 12, 4001, new CalendarTime()));
     }
 
     @Test
